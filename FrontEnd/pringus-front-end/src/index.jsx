@@ -12,12 +12,15 @@ import ErrorPage from './pages/errorPage';
 import Home from './pages/home';
 import Login from './pages/login';
 import FlightDetails from './pages/flightDetails';
-import AddForm from './components/addFlightForm';
+import Dashboard from './pages/dashboard';
+import UserDetails from './pages/userDetails';
 
+import AddForm from './components/addFlightForm';
 import Root from './components/root';
 
 //Router - https://reactrouter.com/en/main/start/tutorial
 //Typescript: https://github.com/typescript-cheatsheets/react#reacttypescript-cheatsheets
+//Color Tools - https://m2.material.io/inline-tools/color/ https://m2.material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=42A5F5&secondary.color=6200EA
 
 const theme = createTheme({
     palette: {
@@ -70,6 +73,14 @@ const router = createBrowserRouter([
       {
         path: "/a/addFlight",
         element: <AddForm />,
+      },
+      {
+        path: "/a/dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "/a/userDetails/:userId",
+        element: <UserDetails />,
       }
     ]
   }
@@ -79,11 +90,11 @@ const root = ReactDOM.createRoot(
   document.getElementById('root')
 );
 root.render(
-  <React.StrictMode>
+  //<React.StrictMode>
     <ThemeProvider theme={theme}>
       <RouterProvider router={router} />
     </ThemeProvider>
-  </React.StrictMode>
+  //</React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

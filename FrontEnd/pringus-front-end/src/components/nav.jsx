@@ -63,8 +63,6 @@ function Nav() {
 
     let navigate = useNavigate();
     const routeChange = (key) => {
-        let path = "/home";
-        console.log(key);
         navigate(key);
     }
 
@@ -89,7 +87,7 @@ function Nav() {
             </Search>
             <Button
                 key="Admin"
-                onClick={() => routeChange("/a/addFlight")}
+                onClick={() => routeChange("/a/dashboard")}
                 sx={{ my: 2, color: 'white', display: 'block', ml: "25 px" }}
              >
                 Admin
