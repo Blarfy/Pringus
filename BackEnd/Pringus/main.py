@@ -1,6 +1,5 @@
 import pymongo as pymongo
 import json
-import pprint
 from flask import Flask, Response
 
 app = Flask(__name__)
@@ -79,6 +78,25 @@ def getRoutes():
         return Response(response=json.dumps({"message": "cannot read name"}), status=500, mimetype="application/json")
 
 
+@app.route('/airports', methods=["GET"])
+def getAirports():
+    try:
+        airports = []
+        data = db.Airports
+        for airport in data.find():
+            airports.append(airport)
+        return str(airports)
+    except Exception as ex:
+        print(ex)
+        return Response(response=json.dumps({"message": "cannot read name"}), status=500, mimetype="application/json")
+
+
+# Create
+@app.route('/planes', methods=["POST"])
+def createPlane():
+    print("")
+
+
 @app.route('/flights', methods=["POST"])
 def createFlight():
     print("")
@@ -96,6 +114,17 @@ def createUser():
 
 @app.route('/routes', methods=["POST"])
 def createRoute():
+    print("")
+
+
+@app.route('/airports', methods=["POST"])
+def createAirport():
+    print("")
+
+
+# Update
+@app.route('/planes', methods=["PUT"])
+def updatePlane():
     print("")
 
 
@@ -119,6 +148,17 @@ def updateRoute():
     print("")
 
 
+@app.route('/airports', methods=["PUT"])
+def updateAirport():
+    print("")
+
+
+# Delete
+@app.route('/planes', methods=["DELETE"])
+def deletePlane():
+    print("")
+
+
 @app.route('/flights', methods=["DELETE"])
 def deleteFlight():
     print("")
@@ -136,6 +176,11 @@ def deleteUser():
 
 @app.route('/routes', methods=["DELETE"])
 def deleteRoute():
+    print("")
+
+
+@app.route('/airports', methods=["DELETE"])
+def deleteAirports():
     print("")
 
 
