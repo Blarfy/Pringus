@@ -21,6 +21,6 @@ public class UserRESTController {
 
     @GetMapping("/getByUsername/{username}")
     public String getByUsername(@PathVariable String username) {
-        return userRepository.findByUsername(username).toString();
+        return userRepository.findOneByUsername(username).toString();
     }
 }
