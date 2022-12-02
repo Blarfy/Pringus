@@ -9,4 +9,7 @@ import java.util.List;
 public interface PlaneRepository extends MongoRepository<Plane, String> {
     @Query("{ 'name' : ?0 }")
     public List<Plane> findByName(String name);
+
+    @Query("{ 'code' : ?0 }")
+    public List<Plane> findByCode(String code);
 }
