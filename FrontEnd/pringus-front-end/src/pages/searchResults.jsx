@@ -5,42 +5,8 @@ import React from 'react';
 
 import ObjectList from '../components/ObjectList';
 
-function Dashboard() {
-    let list = [
-        {
-            "id": 1,
-            "username": "Bruce",
-            "email": "email@gmail.com",
-            "password": "password",
-            "role": "customer",
-            "tickets": []
-        },
-        {
-            "id": 2,
-            "username": "Bob",
-            "email": "email2@gmail.com",
-            "password": "passwordAgain",
-            "role": "admin",
-            "tickets": []
-        },
-        {
-            "id": 3,
-            "username": "Jerry",
-            "email": "gorp@foo.bar",
-            "password": "passwordOnceMore",
-            "role": "associate",
-            "tickets": []
-        },
-        {
-            "id": 4,
-            "username": "Skoo",
-            "email": "goobough@shmail.com",
-            "password": "passEl",
-            "role": "customer",
-            "tickets": ["AF-1234", "AF-1235"]
-        },
-    ];
-    let flight = [
+function SearchResults () {
+    let flights = [
         {
             "_id":{"$oid":"6386b98ea8a99f64acbd25cc"},
             "FlightID":"PR0",
@@ -48,7 +14,6 @@ function Dashboard() {
             "Destination":"LXA",
             "Price":"339.56",
             "Airline":"Pringus Air",
-            "status": "on time",
             "Flight Info": {
                 "Departure Time":"n/a",
                 "Arrival Time":"n/a",
@@ -93,10 +58,10 @@ function Dashboard() {
     ];
     return (
         <>
-            <ObjectList type="User" json={list} addButton isAdminPage />
-            <ObjectList type="Flight" json={flight} addButton isAdminPage />
+            <ObjectList type="Flight" json={flights} isSearchResult isAdminPage={false/* isAdmin */} />
+            {/* {isAdmin ? <ObjectList type="User" json={list} addButton isAdminPage /> : null} */}
         </>
     );
 }
 
-export default Dashboard;
+export default SearchResults;

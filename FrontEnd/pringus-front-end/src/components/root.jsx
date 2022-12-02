@@ -17,7 +17,7 @@ function Root() {
             backgroundColor: `${theme.palette.canvas.main}`,
         }}>
             <Nav />
-            <div css={{paddingTop: "100px", display: "flex", flexDirection: "row", justifyContent: "space-around"}}>
+            <div css={{paddingTop: "100px", display: "flex", flexDirection: "row", justifyContent: "space-around", flexWrap: "wrap"}}>
             <Outlet />
             </div>
         </Box>

@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
-//Add flight page
+//Edit flight page
 import React from 'react';
 
 import FlightForm from '../components/flightForm';
 
-function AddFlight() {
+function EditFlight() {
     return (
         <div className="AddFlight" >
-            <FlightForm />
+            <FlightForm mode="Edit" />
         </div>
     );
 }
 
-export default AddFlight;
+export default EditFlight;
