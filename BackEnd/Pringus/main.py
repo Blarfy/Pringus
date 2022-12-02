@@ -159,9 +159,9 @@ def getOneAirport(field, value):
 
 
 # Create
-@app.route('/planes', methods=["POST"])
-def createPlane():
-    print("")
+# @app.route('/planes', methods=["POST"])
+# def createPlane():
+#     print("")
 
 
 @app.route('/flights', methods=["POST"])
@@ -179,20 +179,20 @@ def createUser():
     print("")
 
 
-@app.route('/routes', methods=["POST"])
-def createRoute():
-    print("")
+# @app.route('/routes', methods=["POST"])
+# def createRoute():
+#     print("")
 
 
-@app.route('/airports', methods=["POST"])
-def createAirport():
-    print("")
+# @app.route('/airports', methods=["POST"])
+# def createAirport():
+#     print("")
 
 
 # Update
-@app.route('/planes', methods=["PUT"])
-def updatePlane():
-    print("")
+# @app.route('/planes', methods=["PUT"])
+# def updatePlane():
+#     print("")
 
 
 @app.route('/flights', methods=["PUT"])
@@ -210,20 +210,20 @@ def updateUser():
     print("")
 
 
-@app.route('/routes', methods=["PUT"])
-def updateRoute():
-    print("")
+# @app.route('/routes', methods=["PUT"])
+# def updateRoute():
+#     print("")
 
 
-@app.route('/airports', methods=["PUT"])
-def updateAirport():
-    print("")
+# @app.route('/airports', methods=["PUT"])
+# def updateAirport():
+#     print("")
 
 
 # Delete
-@app.route('/planes', methods=["DELETE"])
-def deletePlane():
-    print("")
+# @app.route('/planes', methods=["DELETE"])
+# def deletePlane():
+#     print("")
 
 
 @app.route('/flights', methods=["DELETE"])
@@ -241,14 +241,14 @@ def deleteUser():
     print("")
 
 
-@app.route('/routes', methods=["DELETE"])
-def deleteRoute():
-    print("")
+# @app.route('/routes', methods=["DELETE"])
+# def deleteRoute():
+#     print("")
 
 
-@app.route('/airports', methods=["DELETE"])
-def deleteAirports():
-    print("")
+# @app.route('/airports', methods=["DELETE"])
+# def deleteAirports():
+#     print("")
 
 
 if __name__ == '__main__':
