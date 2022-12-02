@@ -14,9 +14,13 @@ import Login from './pages/login';
 import FlightDetails from './pages/flightDetails';
 import Dashboard from './pages/dashboard';
 import UserDetails from './pages/userDetails';
+import Flights from './pages/searchResults';
 
-import AddForm from './components/addFlightForm';
+import AddFlight from './pages/addFlight';
+import EditFlight from './pages/editFlight';
 import Root from './components/root';
+import SearchResults from './pages/searchResults';
+
 
 //Router - https://reactrouter.com/en/main/start/tutorial
 //Typescript: https://github.com/typescript-cheatsheets/react#reacttypescript-cheatsheets
@@ -62,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/search",
+        element: <SearchResults />,
       }
     ]
   },
@@ -72,7 +80,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/a/addFlight",
-        element: <AddForm />,
+        element: <AddFlight />,
+      },
+      {
+        path: "/a/editFlight/:flightId",
+        element: <EditFlight />,
       },
       {
         path: "/a/dashboard",

@@ -66,6 +66,12 @@ function Nav() {
         navigate(key);
     }
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+          navigate(`/search/${event.target.value}`);
+        }
+      }
+
     return (
         <AppBar sx={{height: "80px"}}>
             <Toolbar>
@@ -83,6 +89,7 @@ function Nav() {
                 <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
+                onKeyDown={handleKeyDown}
                 />
             </Search>
             <Button

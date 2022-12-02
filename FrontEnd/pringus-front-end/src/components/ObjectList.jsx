@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from './card';
 
-function ObjectList({style, json, type, addButton}) {
+function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult}) {
     //Type is the type of object being listed Ex: Flight, User, etc.
     //Json is the json object to be listed
     //Style is the style of the object list
@@ -101,108 +101,188 @@ function ObjectList({style, json, type, addButton}) {
 
     return (
         <Card style={objectListStyle}>
-            <h1 css={{marginLeft: "20px", marginTop: "20px"}}>{type}s</h1>
+            <h1 css={{marginLeft: "20px", marginTop: "20px"}}>
+                { isSearchResult ? "Results" : type === "flight" ? "Flights" : type === "User" ? "Users" : "" }
+            </h1>
             <Table>
                 <TableHead>
+                    {type === "User" ? 
                     <TableRow>
                         <TableCell>ID</TableCell>
                         <TableCell>Username</TableCell>
                         <TableCell>Role</TableCell>
                         <TableCell>Email</TableCell>
                         <TableCell></TableCell>
-                    </TableRow>
+                    </TableRow> : null }
+                    {type === "Flight" ? 
+                    <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell>Origin</TableCell>
+                        <TableCell>Destination</TableCell>
+                        <TableCell>Airline</TableCell>
+                        <TableCell></TableCell>
+                    </TableRow> : null }
+                    {type === "Suggested" ? 
+                    <TableRow>
+                        <TableCell></TableCell>
+                        <TableCell>Origin</TableCell>
+                        <TableCell>Destination</TableCell>
+                        <TableCell>Airline</TableCell>
+                        <TableCell></TableCell>
+                    </TableRow> : null }
                 </TableHead>
                 <TableBody>
-                    {json.map((item, i) => {
-                        // console.log("itemsRef " + itemsRef.current[i-1]);
-                        // console.log(itemsRef);
-                        // console.log(typeof open);
-                        if (type === "User") {
-                            return (
-                                <TableRow>
-                                    <TableCell>{item.id}</TableCell>
-                                    <TableCell>{item.username}</TableCell>
-                                    <TableCell>{item.role}</TableCell>
-                                    <TableCell>{item.email}</TableCell>
-                                    <TableCell>
-                                        <Button 
-                                            variant='contained' 
-                                            size='small'
-                                            ref={(element) => {
-                                                // console.log("element " + element);
-                                                // console.log("itemsRef " + itemsRef.current[i]);
-                                                if (element) {
-                                                    itemsRef.current[i] = element;
-                                                }
-                                                // console.log("itemsRef AFTER " + itemsRef.current[i]);
-                                                // console.log(item)
-                                                // console.log(i);
-                                            }}
-                                            aria-controls={open[i] ? 'menu-list-grow' : undefined}
-                                            aria-haspopup="true"
-                                            onClick={(event) => handleToggle(event, i)}
-                                            id={i}
-                                            >Options</Button>
-                                            <Popper 
-                                                open={open[i]} 
-                                                anchorEl={itemsRef.current[selectedIndex]} 
-                                                role={undefined} 
-                                                transition 
+                    {type === "User" ? json.map((item, i) => {
+                        console.log("ITEM");
+                        console.log(item);
+                        return (
+                        <TableRow>
+                            <TableCell>{item.id}</TableCell>
+                            <TableCell>{item.username}</TableCell>
+                            <TableCell>{item.role}</TableCell>
+                            <TableCell>{item.email}</TableCell>
+                            <TableCell>
+                                <Button 
+                                    variant='contained' 
+                                    size='small'
+                                    ref={(element) => {
+                                        // console.log("element " + element);
+                                        // console.log("itemsRef " + itemsRef.current[i]);
+                                        if (element) {
+                                            itemsRef.current[i] = element;
+                                        }
+                                        // console.log("itemsRef AFTER " + itemsRef.current[i]);
+                                        // console.log(item)
+                                        // console.log(i);
+                                    }}
+                                    aria-controls={open[i] ? 'menu-list-grow' : undefined}
+                                    aria-haspopup="true"
+                                    onClick={(event) => handleToggle(event, i)}
+                                    id={i}
+                                    >Options</Button>
+                                    <Popper 
+                                        open={open[i]} 
+                                        anchorEl={itemsRef.current[selectedIndex]} 
+                                        role={undefined} 
+                                        transition 
+                                    >
+                                        {({ TransitionProps, placement }) => (
+                                            <Grow 
+                                                {...TransitionProps} 
+                                                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
                                             >
-                                                {({ TransitionProps, placement }) => (
-                                                    <Grow 
-                                                        {...TransitionProps} 
-                                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                                                    >
-                                                        <Paper>
-                                                            <ClickAwayListener onClickAway={(event) => handleClose(event, i)}>
-                                                                <MenuList 
-                                                                    autoFocusItem={open[i]} 
-                                                                    id="menu-list-grow" 
-                                                                    onKeyDown={handleListKeyDown}
-                                                                >
-                                                                    <MenuItem onClick={(event) => {
-                                                                        handleClose(event, i)
-                                                                        navigate("/a/userDetails/" + item.id);
-                                                                    }}>Edit</MenuItem>
-                                                                    <MenuItem onClick={(event) => {
-                                                                        handleClose(event, i)
-                                                                        // handleDelete(item.id);
-                                                                        }}>Delete</MenuItem>
-                                                                </MenuList>
-                                                            </ClickAwayListener>
-                                                        </Paper>
-                                                    </Grow>
-                                                )}
-                                            </Popper>
-                                    </TableCell>
-                                </TableRow>
-                            )
-                        } else if (type === "Flight") {
-                            return (
-                                <TableRow>
-                                    <TableCell>{item.id}</TableCell>
-                                </TableRow>
-                            )
-                        } else if (type === "Ticket") {
-                            return (
-                            <>
-
-                            </>
-                            )
-                        } else {
-                            return (
-                                <>Something Broke...</>
-                            )
-                        }
-                    })}
+                                                <Paper>
+                                                    <ClickAwayListener onClickAway={(event) => handleClose(event, i)}>
+                                                        <MenuList 
+                                                            autoFocusItem={open[i]} 
+                                                            id="menu-list-grow" 
+                                                            onKeyDown={handleListKeyDown}
+                                                        >
+                                                            <MenuItem onClick={(event) => {
+                                                                handleClose(event, i)
+                                                                navigate("/a/userDetails/" + item.id);
+                                                            }}>Edit</MenuItem>
+                                                            <MenuItem onClick={(event) => {
+                                                                handleClose(event, i)
+                                                                // handleDelete(item.id);
+                                                                }}>Delete</MenuItem>
+                                                        </MenuList>
+                                                    </ClickAwayListener>
+                                                </Paper>
+                                            </Grow>
+                                        )}
+                                    </Popper>
+                            </TableCell>
+                        </TableRow>
+                    )}) : null}
+                    {type === "Flight" ? json.map((item, i) => (
+                        <TableRow>
+                            <TableCell>{item.FlightID}</TableCell>
+                            <TableCell>{item.Origin}</TableCell>
+                            <TableCell>{item.Destination}</TableCell>
+                            <TableCell>{item.Airline}</TableCell>
+                            {isAdminPage ? 
+                            <TableCell>
+                                <Button 
+                                    variant='contained' 
+                                    size='small'
+                                    ref={(element) => {
+                                        // console.log("element " + element);
+                                        // console.log("itemsRef " + itemsRef.current[i]);
+                                        if (element) {
+                                            itemsRef.current[i] = element;
+                                        }
+                                        // console.log("itemsRef AFTER " + itemsRef.current[i]);
+                                        // console.log(item)
+                                        // console.log(i);
+                                    }}
+                                    aria-controls={open[i] ? 'menu-list-grow' : undefined}
+                                    aria-haspopup="true"
+                                    onClick={(event) => handleToggle(event, i)}
+                                    id={i}
+                                    >Options</Button>
+                                    <Popper 
+                                        open={open[i]} 
+                                        anchorEl={itemsRef.current[selectedIndex]} 
+                                        role={undefined} 
+                                        transition 
+                                    >
+                                        {({ TransitionProps, placement }) => (
+                                            <Grow 
+                                                {...TransitionProps} 
+                                                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                            >
+                                                <Paper>
+                                                    <ClickAwayListener onClickAway={(event) => handleClose(event, i)}>
+                                                        <MenuList 
+                                                            autoFocusItem={open[i]} 
+                                                            id="menu-list-grow" 
+                                                            onKeyDown={handleListKeyDown}
+                                                        >
+                                                            <MenuItem onClick={(event) => {
+                                                                handleClose(event, i)
+                                                                navigate("/a/flightDetails/" + item.FlightID);
+                                                            }}>Edit</MenuItem>
+                                                            <MenuItem onClick={(event) => {
+                                                                handleClose(event, i)
+                                                                // handleDelete(item.id);
+                                                                }}>Delete</MenuItem>
+                                                        </MenuList>
+                                                    </ClickAwayListener>
+                                                </Paper>
+                                            </Grow>
+                                        )}
+                                    </Popper>
+                            </TableCell>
+                            : 
+                            <TableCell>
+                                <Button variant='contained' size='small' onClick={() => {navigate("/flightDetails/" + item.FlightID)}}>Details</Button>
+                            </TableCell>
+                            }
+                        </TableRow>
+                    )) : null}
+                    {type === "Suggested" ? json.map((item, i) => {
+                        return (
+                        <TableRow>
+                        <TableCell><img src='https://cataas.com/cat?width=100&height=100' /></TableCell>
+                        <TableCell>{item.Origin}</TableCell>
+                        <TableCell>{item.Destination}</TableCell>
+                        <TableCell>{item.Airline}</TableCell>
+                        <TableCell>
+                            <Button variant='contained' size='small' onClick={() => {navigate("/flightDetails/" + item.FlightID)}}>Details</Button>
+                        </TableCell>
+                    </TableRow>
+                    )}) : null}
+                    {type === "Template" ? json.map((item, i) => (
+                        <></>
+                    )) : null}
                 </TableBody>
             </Table>
             { addButton ? 
                 <Button 
                     variant='contained' 
                     color='secondary'
-                    onClick={{}} //handleAdd
+                    onClick={() => console.log("guh")} //handleAdd
                     sx={{marginLeft: "400px", marginTop: "20px", width: "120px"}}
                 >
                     Add {type}

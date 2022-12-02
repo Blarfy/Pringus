@@ -8,11 +8,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Ticket {
     @Id
     private String id;
+    private String ticketID;
     private String seatClass;
     private String flightID;
     private String seat;
     private String user;
-
     public Ticket() {
     }
 
@@ -53,6 +53,14 @@ public class Ticket {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public String getTicketID() {
+        return ticketID;
+    }
+
+    public void setTicketID(int ticketID) {
+        this.ticketID = "PR" + String.format("%04d", ticketID);
     }
 
     // this returns a json representation of the object

@@ -22,12 +22,17 @@ public class PlanesRESTController {
 
     @GetMapping("/getAll")
     public String getAll() {
-        return planeRepository.findAll().stream().count() + "";
+        return planeRepository.findAll().toString();
     }
 
 
     @GetMapping("/getByName/{name}")
     public String getByName(@PathVariable String name) {
         return planeRepository.findByName(name).toString();
+    }
+
+    @GetMapping("/getByCode/{code}")
+    public String getByCode(@PathVariable String code) {
+        return planeRepository.findByCode(code).toString();
     }
 }
