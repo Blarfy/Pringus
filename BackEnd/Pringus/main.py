@@ -91,6 +91,73 @@ def getAirports():
         return Response(response=json.dumps({"message": "cannot read name"}), status=500, mimetype="application/json")
 
 
+# GetOne
+@app.route('/planes/<field>/<value>', methods=["GET"])
+def getOnePlane(field, value):
+    try:
+        data = db.Planes
+        plane = data.find_one({field: value})
+        return str(plane)
+    except Exception as ex:
+        print(ex)
+        return Response(response=json.dumps({"message": "cannot read name"}), status=500, mimetype="application/json")
+
+
+@app.route('/flights/<field>/<value>', methods=["GET"])
+def getOneFlight(field, value):
+    try:
+        data = db.Flights
+        flight = data.find_one({field: value})
+        return str(flight)
+    except Exception as ex:
+        print(ex)
+        return Response(response=json.dumps({"message": "cannot read name"}), status=500, mimetype="application/json")
+
+
+@app.route('/tickets/<field>/<value>', methods=["GET"])
+def getOneTicket(field, value):
+    try:
+        data = db.Tickets
+        ticket = data.find_one({field: value})
+        return str(ticket)
+    except Exception as ex:
+        print(ex)
+        return Response(response=json.dumps({"message": "cannot read name"}), status=500, mimetype="application/json")
+
+
+@app.route('/users/<field>/<value>', methods=["GET"])
+def getOneUser(field, value):
+    try:
+        data = db.Users
+        user = data.find_one({field: value})
+        return str(user)
+    except Exception as ex:
+        print(ex)
+        return Response(response=json.dumps({"message": "cannot read name"}), status=500, mimetype="application/json")
+
+
+@app.route('/routes/<field>/<value>', methods=["GET"])
+def getOneRoute(field, value):
+    try:
+        data = db.Routes
+        route = data.find_one({field: value})
+        return str(route)
+    except Exception as ex:
+        print(ex)
+        return Response(response=json.dumps({"message": "cannot read name"}), status=500, mimetype="application/json")
+
+
+@app.route('/airports/<field>/<value>', methods=["GET"])
+def getOneAirport(field, value):
+    try:
+        data = db.Airports
+        airport = data.find_one({field: value})
+        return str(airport)
+    except Exception as ex:
+        print(ex)
+        return Response(response=json.dumps({"message": "cannot read name"}), status=500, mimetype="application/json")
+
+
 # Create
 @app.route('/planes', methods=["POST"])
 def createPlane():
