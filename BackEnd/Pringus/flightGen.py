@@ -17,6 +17,8 @@ routes = []
 for route in collRoutes.find():
     routes.append(route)
 
+flightCount = 0
+
 randomloop = random.randint(1, 1000)
 for i in range(randomloop):
     randomRoute = routes[random.randint(0, len(routes)-1)]
@@ -152,9 +154,10 @@ for i in range(randomloop):
     randomDeparture = str(random.randint(1, 12)) + ":" + str(random.randint(0, 59))
     randomArrival = str(random.randint(1, 12)) + ":" + str(random.randint(0, 59))
 
+    flightCount += 1
+
     flight = {
-        # TODO: Make this have a consistent amount of digits
-        'FlightID': "PR" + str(i),
+        'FlightID': "PR" + str(flightCount).zfill(4),
         'Origin': randomRoute['origin'],
         'Destination': randomRoute['destination'],
         'Price': randomPrice,
