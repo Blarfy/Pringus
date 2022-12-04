@@ -7,7 +7,7 @@ import FlightForm from '../components/flightForm';
 function AddFlight() {
     return (
         <div className="AddFlight" >
-            <FlightForm />
+            <FlightForm isAdd />
         </div>
     );
 }
