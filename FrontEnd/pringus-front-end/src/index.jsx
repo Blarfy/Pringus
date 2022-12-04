@@ -65,6 +65,7 @@ const router = createBrowserRouter([
       {
         path: "/flightDetails/:flightId",
         element: <FlightDetails />,
+        loader: flightLoader,
       },
       {
         path: "/home",

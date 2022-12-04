@@ -3,16 +3,26 @@
 import React from 'react';
 
 import { useLoaderData } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 
 import { Buffer } from 'buffer';
+
+import Login from './login';
+import Home from './home';
 
 import FlightForm from '../components/flightForm';
 
 function EditFlight() {
+    const [user, setUser] = useOutletContext();
+
     const flight = useLoaderData();
 
     return (
-        <FlightForm json={flight} isEdit /> 
+        <>
+            {user.role === "ADMIN" ? <FlightForm json={flight} isEdit /> : user === null ? (<Login />) : (<Home />)}
+             
+        </>
     );
 }
 

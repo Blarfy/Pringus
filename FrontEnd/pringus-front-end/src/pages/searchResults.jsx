@@ -2,10 +2,16 @@
 //Elevated User Dashboard
 import React from 'react';
 
+import { redirect } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
+
+import Login from './login';
 
 import ObjectList from '../components/ObjectList';
 
 function SearchResults () {
+    const [user, setUser] = useOutletContext();
+
     let flights = [
         {
             "_id":{"$oid":"6386b98ea8a99f64acbd25cc"},
@@ -58,8 +64,7 @@ function SearchResults () {
     ];
     return (
         <>
-            <ObjectList type="Flight" json={flights} isSearchResult isAdminPage={false/* isAdmin */} />
-            {/* {isAdmin ? <ObjectList type="User" json={list} addButton isAdminPage /> : null} */}
+            {user === null ? (<Login />) : <ObjectList type="Flight" json={flights} isSearchResult isAdminPage={ user.role == "ADMIN" ? true : false } />}
         </>
     );
 }

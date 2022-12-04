@@ -2,15 +2,24 @@ import React from 'react';
 
 import { useLoaderData } from 'react-router-dom';
 
+import { redirect } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
+
 import { Buffer } from 'buffer';
+
+import Login from './login';
+import Home from './home';
 
 import UserForm from '../components/userForm';
 
 function EditUser() {
-    const user = useLoaderData();
+    const targetUser = useLoaderData();
+    const [user, setUser] = useOutletContext();
 
     return (
-        <UserForm isEdit json={user} />
+        <>
+            {user.role === "ADMIN" ? <UserForm isEdit json={targetUser} /> : user === null ? (<Login />) : (<Home />)}
+        </>
     );
 }
 

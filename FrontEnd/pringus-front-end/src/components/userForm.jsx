@@ -141,9 +141,9 @@ function UserForm({json, isAdd, isEdit}) {
             <Typography variant="h6" sx={{padding: "10px"}}>{isAdd ? "Add User" : "Edit User"}</Typography>
             <Grid container spacing={2} sx={{padding: "10px"}}>
                 <Grid item xs={12}>
-                    {isEdit ? (
-                        <Typography>{form.username}</Typography>
-                    ) : (
+                    {isEdit ? (<>
+                        <Typography>Username: {form.username}</Typography>
+                    </>) : (
                         <TextField
                         required
                         label="Username"

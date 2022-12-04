@@ -1,11 +1,23 @@
 /** @jsxImportSource @emotion/react */
 //Elevated User Dashboard
+import { VolunteerActivismOutlined } from '@mui/icons-material';
+import { Typography } from '@mui/material';
 import React from 'react';
 
+import { useOutletContext } from 'react-router-dom';
 
 import ObjectList from '../components/ObjectList';
 
+import Login from './login';
+import Home from './home';
+
+
 function Dashboard() {
+    const [user, setUser] = useOutletContext();
+    console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
+    console.log(user)
+    
+
     let list = [
         {
             "id": 1,
@@ -40,10 +52,11 @@ function Dashboard() {
             "tickets": ["AF-1234", "AF-1235"]
         },
     ];
+
     let flight = [
         {
             "_id":{"$oid":"6386b98ea8a99f64acbd25cc"},
-            "FlightID":"PR0",
+            "FlightID":"PR0001",
             "Origin":"PEK",
             "Destination":"LXA",
             "Price":"339.56",
@@ -91,10 +104,15 @@ function Dashboard() {
             }
         }
     ];
+
     return (
         <>
-            <ObjectList type="User" json={list} addButton isAdminPage />
-            <ObjectList type="Flight" json={flight} addButton isAdminPage />
+            {user.role === "ADMIN" ? 
+            (<>
+                <ObjectList type="User" json={list} addButton isAdminPage />
+                <ObjectList type="Flight" json={flight} addButton isAdminPage />
+            </>) : user === null ? (<Login />) : (<Home />)}
+            
         </>
     );
 }

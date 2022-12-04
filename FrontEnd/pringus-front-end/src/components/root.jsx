@@ -11,6 +11,15 @@ import Nav from './nav';
 
 function Root() {
     const theme = useTheme();
+    // const [user, setUser] = React.useState(localStorage.getItem("user"));
+    let userOBJ = {
+        user: "BUTTS",
+        role: "ADMIN"
+    }
+    const [user, setUser] = React.useState(userOBJ);
+    
+    console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+    console.log(user)
     return (
         <Box sx={{
             minHeight: "100vh",
@@ -18,7 +27,7 @@ function Root() {
         }}>
             <Nav />
             <div css={{paddingTop: "100px", display: "flex", flexDirection: "row", justifyContent: "space-around", flexWrap: "wrap"}}>
-            <Outlet />
+            <Outlet context={[user, setUser]} />
             </div>
         </Box>
     );

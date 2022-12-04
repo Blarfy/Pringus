@@ -5,11 +5,20 @@ import Box from '@mui/material/Box';
 import Card from '../components/card';
 import ObjectList from '../components/ObjectList';
 
+import { redirect } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
+
+import Login from './login';
+
 function Home() {
+    const [user, setUser] = useOutletContext();
+    console.log("BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+    console.log(user)
+
     let flights = [
         {
             "_id":{"$oid":"6386b98ea8a99f64acbd25cc"},
-            "FlightID":"PR0",
+            "FlightID":"PR0001",
             "Origin":"PEK",
             "Destination":"LXA",
             "Price":"339.56",
@@ -33,7 +42,7 @@ function Home() {
         },
         {
             "_id":{"$oid":"6386b98ea8a99f64acbd25cc"},
-            "FlightID":"PR0",
+            "FlightID":"PR0001",
             "Origin":"PEK",
             "Destination":"LXA",
             "Price":"339.56",
@@ -59,9 +68,11 @@ function Home() {
 
     return (
         <>
-            {/* <ObjectList /> */}
-            <ObjectList type="Flight" json={flights} />
-            <ObjectList type="Suggested" json={flights} />
+            {user === null ? (<Login />) : 
+            (<>
+                <ObjectList type="Flight" json={flights} />
+                <ObjectList type="Suggested" json={flights} />
+            </>)}
         </>
     );
 }

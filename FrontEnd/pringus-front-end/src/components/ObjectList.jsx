@@ -95,7 +95,8 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult})
     let staticStyle = {
         width: "550px",
         height: "600px",
-        padding: 0
+        padding: 0,
+        marginBottom: "20px",
     }
     let objectListStyle = {...staticStyle, ...style};
 
@@ -264,7 +265,7 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult})
                     {type === "Suggested" ? json.map((item, i) => {
                         return (
                         <TableRow>
-                        <TableCell><img src='https://cataas.com/cat?width=100&height=100' /></TableCell>
+                        <TableCell><img src='https://lh3.googleusercontent.com/U3iL-wtuPBTVic6Uvy2GM5_iZQviRegMinSx9e1ZaCkipcifVkunt0CEaqFJr0xby87g2iDdcnz45umfFgalWumRDq7nF6ZjLykdXIHwlWU37E8=e365-rw-v0-w580' width={"100px"} height={"100px"} /></TableCell>
                         <TableCell>{item.Origin}</TableCell>
                         <TableCell>{item.Destination}</TableCell>
                         <TableCell>{item.Airline}</TableCell>

@@ -36,20 +36,30 @@ function LoginMenu({style, isRegister}) {
             navigate("/login")
         } else {
             event.preventDefault();
-            let user = {
+            let userObj = {
                 username: username,
                 password: password,
             }
 
-            let response = await fetch("http://localhost:8080/Users/login", {
-                method: "POST",
+            let response = await fetch("http://localhost:8080/login/", {
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": "Basic " + Buffer.from(`${user.username}:${user.password}`).toString("base64")
                 },
+            }).then((response) => {
+                if (response.status === 200) {
+                    setUser(userObj);
+                    localStorage.setItem("user", JSON.stringify(userObj));
+                    return response.json();
+                } else {
+                    return null;
+                }
+            }).catch((error) => {
+                console.log(error);
             });
 
-            setUser(user);
+            
         }
     }
 
