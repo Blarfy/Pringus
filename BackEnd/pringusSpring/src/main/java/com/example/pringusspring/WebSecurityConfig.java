@@ -45,9 +45,11 @@ public class WebSecurityConfig {
                 .logout().deleteCookies().and()
                 .httpBasic();
 
-//        System.out.println(passwordEncoder().encode("spingleton"));
+        //System.out.println(passwordEncoder().encode("spingleton"));
         return http.build();
     }
+
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
