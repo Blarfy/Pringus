@@ -82,7 +82,12 @@ public class User {
     }
 
     public void setRole(String role) {
-        this.role = role;
+        if(role.equals("ADMIN") || role.equals("ASSOCIATE") || role.equals("CUSTOMER")) {
+            this.role = role;
+        }
+        else {
+            this.role = "CUSTOMER";
+        }
     }
 
     public List<Ticket> getTickets() {

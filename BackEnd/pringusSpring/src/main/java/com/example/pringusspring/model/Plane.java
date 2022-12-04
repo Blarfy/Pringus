@@ -68,7 +68,7 @@ public class Plane {
     //returns a json representation of the object
     @Override
     public String toString(){
-        return "{ "+ (business != null ? "\"business\": " + business.toString() + ", " : "" ) + "\"economy\": " + economy.toString() + ", " + (first != null ? "\"first\": " + first.toString() + ", " : "" )+ " \"name\": \"" + name + "\", \"code\": \"" + code + "\" }";
+        return "{ "+ (business != null ? "\"business\": " + business.toString() + ", " : "" ) + "\"economy\": " + economy.toString() + ", " + (first != null ? "\"first\": " + first.toString() + ", " : "" ) + " \"name\": \"" + name + "\", \"code\": \"" + code + "\" }";
     }
 
 

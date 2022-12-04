@@ -13,14 +13,14 @@ public class Flight {
     private String Destination;
     private String FlightID;
     private String Status;
-    private String FlightInfo;
+    private FlightInfo FlightInfo;
     private String Origin;
     private String Price;
 
     public Flight() {
     }
 
-    public Flight(String Airline, String Destination, String FlightID, String Status, String FlightInfo, String Origin, String Price) {
+    public Flight(String Airline, String Destination, String FlightID, String Status, FlightInfo FlightInfo, String Origin, String Price) {
         this.Airline = Airline;
         this.Destination = Destination;
         this.FlightID = FlightID;
@@ -62,11 +62,11 @@ public class Flight {
         Status = status;
     }
 
-    public String getFlightInfo() {
+    public FlightInfo getFlightInfo() {
         return FlightInfo;
     }
 
-    public void setFlightInfo(String flightInfo) {
+    public void setFlightInfo(FlightInfo flightInfo) {
         FlightInfo = flightInfo;
     }
 
