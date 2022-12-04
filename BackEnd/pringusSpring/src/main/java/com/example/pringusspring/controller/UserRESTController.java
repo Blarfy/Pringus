@@ -63,6 +63,13 @@ public class UserRESTController {
         if(userExists != null){
             List<Ticket> tickets = ticketRepository.findAllById(List.of(ticketIds));
             userExists.setTickets(tickets);
+            userExists.setEmail(user.getEmail());
+            userExists.setPassword(user.getPassword());
+            userExists.setFirstName(user.getFirstName());
+            userExists.setLastName(user.getLastName());
+            userExists.setRole(user.getRole());
+            userExists.setUserID(user.getUserID());
+            userExists.setUsername(user.getUsername());
             userRepository.save(userExists);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
