@@ -4,6 +4,7 @@ import com.example.pringusspring.model.Ticket;
 import com.example.pringusspring.model.User;
 import com.example.pringusspring.repository.TicketRepository;
 import com.example.pringusspring.repository.UserRepository;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,7 +45,11 @@ public class UserRESTController {
         String[] ticketIds;
         try {
             user = objectNode.get("user").traverse().readValueAs(User.class);
-            ticketIds = objectNode.get("ticketIds").traverse().readValueAs(String[].class);
+            ArrayNode arrayNode = (ArrayNode) objectNode.get("ticketIds");
+            ticketIds = new String[arrayNode.size()];
+            for (int i = 0; i < arrayNode.size(); i++) {
+                ticketIds[i] = arrayNode.get(i).asText();
+            }
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user");
         }
