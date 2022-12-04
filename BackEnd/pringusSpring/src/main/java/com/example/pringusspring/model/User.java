@@ -28,10 +28,9 @@ public class User {
     public User() {
     }
 
-    @Autowired
-    private TicketRepository ticketRepository;
 
-    public User (String email, String password, String firstName, String lastName, String role, String userID, String username, String[] tickets) {
+
+    public User (String email, String password, String firstName, String lastName, String role, String userID, String username) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -39,7 +38,6 @@ public class User {
         this.role = role;
         this.userID = userID;
         this.username = username;
-        this.tickets = ticketRepository.findAllById(Arrays.asList(tickets));
     }
 
     public User(String email, String password, String firstName, String lastName, String role, List<Ticket> tickets, String userID, String username) {

@@ -57,13 +57,12 @@ public class UserRESTController {
                 objectNode.get("user").get("lastName").asText(),
                 objectNode.get("user").get("role").asText(),
                 objectNode.get("user").get("userID").asText(),
-                objectNode.get("user").get("username").asText(),
-                ticketIds);
+                objectNode.get("user").get("username").asText());
 
-        LOGGER.info("Request body: " + objectNode.asText());
         User userExists = userRepository.findByUserId(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         if(userExists != null){
             List<Ticket> tickets = ticketRepository.findAllById(List.of(ticketIds));
+            user.setTickets(tickets);
             userRepository.save(user);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
