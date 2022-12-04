@@ -2,6 +2,7 @@
 
 from pymongo import MongoClient
 import random
+import datetime
 
 #connect to database
 url = "mongodb+srv://theGringus:SquingyDingus@pringus.kqhfvvx.mongodb.net/?retryWrites=true&w=majority"
@@ -63,7 +64,11 @@ for i in range(randomloop):
             if row == strow:
                 first.append(strowBool)
             else:
-                first.append(patternBool)
+                tempBool = patternBool.copy()
+                for i in range(seatsPerRow):
+                    if random.randint(0, 2) == 1:
+                        tempBool[i] = True
+                first.append(tempBool)
     except:
         print("oopsie poopsies! no first class for you!")
 
@@ -105,7 +110,11 @@ for i in range(randomloop):
             if row == strow:
                 business.append(strowBool)
             else:
-                business.append(patternBool)
+                tempBool = patternBool.copy()
+                for i in range(seatsPerRow):
+                    if random.randint(0, 2) == 1:
+                        tempBool[i] = True
+                business.append(tempBool)
     except:
         print("oopsie poopsies! no business class for you!")
 
@@ -147,30 +156,38 @@ for i in range(randomloop):
             if row == strow:
                 economy.append(strowBool)
             else:
-                economy.append(patternBool)
+                tempBool = patternBool.copy()
+                for i in range(seatsPerRow):
+                    if random.randint(0, 2) == 1:
+                        tempBool[i] = True
+                economy.append(tempBool)
     except:
         print("oopsie poopsies! no economy class for you!")
 
-    randomDeparture = str(random.randint(1, 12)) + ":" + str(random.randint(0, 59))
-    randomArrival = str(random.randint(1, 12)) + ":" + str(random.randint(0, 59))
+    dayOffset = datetime.timedelta(days=random.randint(0, 30))
+    randomDeparture = datetime.datetime.now().replace(hour=random.randint(0, 14), minute=random.randint(0, 29)) + dayOffset
+    randomArrival = datetime.datetime.now().replace(hour=randomDeparture.hour + random.randint(1, 9), minute=randomDeparture.minute + random.randint(0, 29)) + dayOffset
 
     flightCount += 1
 
     flight = {
-        'FlightID': "PR" + str(flightCount).zfill(4),
-        'Origin': randomRoute['origin'],
-        'Destination': randomRoute['destination'],
-        'Price': randomPrice,
-        'Airline': "Pringus Air",
-        "Status": "On Time",
-        'FlightInfo': {
-            'Departure Time': randomDeparture,
-            'Arrival Time': randomArrival,
-            'Airplane': randomRoute['plane'],
-            'Seating': {
-                'First Class': first,
-                'Business Class': business,
-                'Economy Class': economy
+        'flightID': "PR" + str(flightCount).zfill(4),
+        'origin': randomRoute['origin'],
+        'destination': randomRoute['destination'],
+        'price': randomPrice,
+        'airline': "Pringus Air",
+        "status": "On Time",
+        'flightInfo': {
+            'departureTime': randomDeparture,
+            'arrivalTime': randomArrival,
+            'airplane': {
+                "$ref": "Planes",
+                "$id": airplane['_id'],
+            },
+            'seating': {
+                'firstClass': first,
+                'businessClass': business,
+                'economyClass': economy
             }
         }
     }
