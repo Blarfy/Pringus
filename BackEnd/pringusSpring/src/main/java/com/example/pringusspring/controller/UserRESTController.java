@@ -1,11 +1,15 @@
 package com.example.pringusspring.controller;
 
+import com.example.pringusspring.model.Ticket;
 import com.example.pringusspring.model.User;
+import com.example.pringusspring.repository.TicketRepository;
 import com.example.pringusspring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -13,6 +17,9 @@ public class UserRESTController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TicketRepository ticketRepository;
 
     @GetMapping("/getAll")
     public String getAll() {
@@ -30,9 +37,10 @@ public class UserRESTController {
     }
 
     @PutMapping("/updateUser/{userId}")
-    public void updateUser(@PathVariable String userId, @RequestBody User user) {
+    public void updateUser(@PathVariable String userId, @RequestBody User user, @RequestBody String[] ticketIds) {
         User userExists = userRepository.findByUserId(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         if(userExists != null){
+            List<Ticket> tickets = ticketRepository.findAllById(List.of(ticketIds));
             userRepository.save(user);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");

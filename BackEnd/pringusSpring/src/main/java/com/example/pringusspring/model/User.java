@@ -1,5 +1,7 @@
 package com.example.pringusspring.model;
 
+import com.example.pringusspring.repository.TicketRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,6 +26,20 @@ public class User {
     private String username;
 
     public User() {
+    }
+
+    @Autowired
+    private TicketRepository ticketRepository;
+
+    public User (String email, String password, String firstName, String lastName, String role, String userID, String username, String[] tickets) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.userID = userID;
+        this.username = username;
+        this.tickets = ticketRepository.findAllById(Arrays.asList(tickets));
     }
 
     public User(String email, String password, String firstName, String lastName, String role, List<Ticket> tickets, String userID, String username) {
