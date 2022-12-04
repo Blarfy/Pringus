@@ -1,5 +1,6 @@
 package com.example.pringusspring.controller;
 
+import com.example.pringusspring.Service.MyUserDetailsService;
 import com.example.pringusspring.model.Ticket;
 import com.example.pringusspring.model.User;
 import com.example.pringusspring.repository.TicketRepository;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,6 +23,12 @@ public class UserRESTController {
     private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(UserRESTController.class);
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MyUserDetailsService userDetailsService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private TicketRepository ticketRepository;
@@ -64,13 +72,13 @@ public class UserRESTController {
             List<Ticket> tickets = ticketRepository.findAllById(List.of(ticketIds));
             userExists.setTickets(tickets);
             userExists.setEmail(user.getEmail());
-            userExists.setPassword(user.getPassword());
+            userExists.setPassword(passwordEncoder.encode(user.getPassword()));
             userExists.setFirstName(user.getFirstName());
             userExists.setLastName(user.getLastName());
             userExists.setRole(user.getRole());
             userExists.setUserID(user.getUserID());
             userExists.setUsername(user.getUsername());
-            userRepository.save(userExists);
+            userDetailsService.saveUser(userExists);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }

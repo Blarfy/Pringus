@@ -39,7 +39,6 @@ public class WebSecurityConfig {
                                 .anyRequest().authenticated()
 
                 )
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .cors().and()
