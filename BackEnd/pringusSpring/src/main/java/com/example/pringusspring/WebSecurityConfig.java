@@ -35,13 +35,17 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) ->
                         requests.requestMatchers("/users/getAll").permitAll()
+                                .requestMatchers("/Flights/**").permitAll()
                                 .anyRequest().authenticated()
+
                 )
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .cors().and()
                 .logout().deleteCookies().and()
                 .httpBasic();
+
 //        System.out.println(passwordEncoder().encode("spingleton"));
         return http.build();
     }

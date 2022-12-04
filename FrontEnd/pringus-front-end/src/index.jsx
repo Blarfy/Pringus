@@ -4,6 +4,7 @@ import './css/index.css';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
@@ -20,6 +21,8 @@ import AddFlight from './pages/addFlight';
 import EditFlight from './pages/editFlight';
 import Root from './components/root';
 import SearchResults from './pages/searchResults';
+
+import { getFlight as flightLoader } from './pages/editFlight';
 
 
 //Router - https://reactrouter.com/en/main/start/tutorial
@@ -85,6 +88,7 @@ const router = createBrowserRouter([
       {
         path: "/a/editFlight/:flightId",
         element: <EditFlight />,
+        loader: flightLoader,
       },
       {
         path: "/a/dashboard",
