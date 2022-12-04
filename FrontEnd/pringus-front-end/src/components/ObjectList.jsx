@@ -102,7 +102,7 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult})
     return (
         <Card style={objectListStyle}>
             <h1 css={{marginLeft: "20px", marginTop: "20px"}}>
-                { isSearchResult ? "Results" : type === "flight" ? "Flights" : type === "User" ? "Users" : "" }
+                { isSearchResult ? "Results" : type === "Flight" ? "Flights" : type === "User" ? "Users" : type === "Suggested" ? "Suggested Flights" : "" }
             </h1>
             <Table>
                 <TableHead>
@@ -180,7 +180,7 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult})
                                                         >
                                                             <MenuItem onClick={(event) => {
                                                                 handleClose(event, i)
-                                                                navigate("/a/userDetails/" + item.id);
+                                                                navigate("/a/editUser/" + item.id);
                                                             }}>Edit</MenuItem>
                                                             <MenuItem onClick={(event) => {
                                                                 handleClose(event, i)
@@ -241,7 +241,7 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult})
                                                         >
                                                             <MenuItem onClick={(event) => {
                                                                 handleClose(event, i)
-                                                                navigate("/a/flightDetails/" + item.FlightID);
+                                                                navigate("/a/editFlight/" + item.FlightID);
                                                             }}>Edit</MenuItem>
                                                             <MenuItem onClick={(event) => {
                                                                 handleClose(event, i)
@@ -282,7 +282,7 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult})
                 <Button 
                     variant='contained' 
                     color='secondary'
-                    onClick={() => console.log("guh")} //handleAdd
+                    onClick={() => navigate("/a/add" + type)} //handleAdd
                     sx={{marginLeft: "400px", marginTop: "20px", width: "120px"}}
                 >
                     Add {type}

@@ -9,7 +9,6 @@ import { Buffer } from 'buffer';
 import FlightForm from '../components/flightForm';
 
 function EditFlight() {
-    let { form, setForm } = React.useState();
     const flight = useLoaderData();
 
     return (

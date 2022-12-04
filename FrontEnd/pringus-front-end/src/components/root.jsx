@@ -13,7 +13,7 @@ function Root() {
     const theme = useTheme();
     return (
         <Box sx={{
-            height: "100vh",
+            minHeight: "100vh",
             backgroundColor: `${theme.palette.canvas.main}`,
         }}>
             <Nav />

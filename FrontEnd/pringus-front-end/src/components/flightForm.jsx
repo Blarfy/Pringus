@@ -3,6 +3,7 @@ import { useTheme } from '@emotion/react';
 import { Button, Grid, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Buffer } from 'buffer';
 
@@ -11,6 +12,7 @@ import Card from './card';
 
 function FlightForm({json, isAdd, isEdit}) {
     let theme = useTheme();
+    let navigate = useNavigate();
 
     let initialForm; 
 
@@ -35,8 +37,12 @@ function FlightForm({json, isAdd, isEdit}) {
 
     const [form, setForm] = React.useState(initialForm);
 
-    //let [aircraft, setAircraft] = React.useState(getAircraft()); //wait on api
-    //console.log(aircraft);
+    let [aircraft, setAircraft] = React.useState(); //wait on api
+
+    React.useEffect(() => {
+        getAircraft().then((data) => { setAircraft(data) });
+        console.log(aircraft);
+    }, []);
 
     const handleFlightCodeChange = (event) => {
         let newForm = {...form};
@@ -48,8 +54,6 @@ function FlightForm({json, isAdd, isEdit}) {
         let newForm = {...form};
         newForm.FlightInfo.Airplane = event.target.value;
         setForm(newForm);
-        {/* //{aircraft.map((plane) => <MenuItem value={plane.PlaneID}>{plane.PlaneID}</MenuItem>)} */}
-        {/* //value={form.Aircraft} onChange={handleAircraftChange} */}
     }
 
     const handleAirlineChange = (event) => {
@@ -117,11 +121,13 @@ function FlightForm({json, isAdd, isEdit}) {
             .catch(error => console.log('error', error));
     }
 
-
+    const handleCancel = (event) => {
+        navigate("/a/dashboard");
+    }
 
     return (
         <Card style={{width: "500px"}}>
-            <h1>{isAdd ? "Create" : "Edit"} Flight</h1>
+            <Typography variant='h5'>{isAdd ? "Create" : "Edit"} Flight</Typography>
             {/* Fill form in with actual data ----------------------------------------------------------------------- */}
             {/* Rig up to 2 way bind -> Then rig up to backend */}
             <Grid container spacing={2} sx={{mt:"5px"}}>
@@ -136,11 +142,7 @@ function FlightForm({json, isAdd, isEdit}) {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Select fullWidth value={form.FlightInfo.Airplane} onChange={handleAircraftChange}> 
-                        <MenuItem value={initialForm.FlightInfo.Airplane}>{initialForm.FlightInfo.Airplane}</MenuItem>
-                        <MenuItem value="A320">A320</MenuItem> 
-                        <MenuItem value="A321">A321</MenuItem> 
-                        <MenuItem value="A330">A330</MenuItem>
-                        <MenuItem value="A350">A350</MenuItem>
+                        {aircraft ? aircraft.map((plane) => <MenuItem value={plane.code}>{plane.code}</MenuItem>) : <MenuItem value="Loading...">Loading...</MenuItem>}
                     </Select>
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -189,7 +191,10 @@ function FlightForm({json, isAdd, isEdit}) {
                 <Grid item xs={12} md={6}>
                     <TextField fullWidth size='small' placeholder="Arrival Time" value={form.FlightInfo["Arrival Time"]} onChange={handleArrivalChange}/>
                 </Grid>
-                <Grid item xs={0} md={8}></Grid>
+                <Grid item xs={0} md={6}></Grid>
+                <Grid item xs={12} md={3}>
+                    <Button variant='contained' color='secondary' fullwidth onClick={handleCancel}>Cancel</Button>
+                </Grid>
                 <Grid item xs={12} md={3}>
                     <Button variant="contained" color="primary" fullWidth onClick={handleSubmit}>Submit</Button>
                 </Grid>
@@ -212,7 +217,9 @@ const getAircraft = async () => {
         redirect: 'follow'
     };
 
+    
     let response = await fetch(`http://localhost:8080/Planes/getAll`, requestOptions);
+        
     let planes = await response.json();
 
     return planes;

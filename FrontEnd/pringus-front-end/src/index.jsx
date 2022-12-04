@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './css/index.css';
 import reportWebVitals from './reportWebVitals';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, useRouteLoaderData } from "react-router-dom";
 
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -12,17 +12,21 @@ import ErrorPage from './pages/errorPage';
 
 import Home from './pages/home';
 import Login from './pages/login';
+import Register from './pages/register';
 import FlightDetails from './pages/flightDetails';
 import Dashboard from './pages/dashboard';
-import UserDetails from './pages/userDetails';
-import Flights from './pages/searchResults';
-
+import EditUser from './pages/editUser';
 import AddFlight from './pages/addFlight';
 import EditFlight from './pages/editFlight';
-import Root from './components/root';
+import AddUser from './pages/addUser';
 import SearchResults from './pages/searchResults';
+import Flights from './pages/searchResults';
+
+import Root from './components/root';
+
 
 import { getFlight as flightLoader } from './pages/editFlight';
+import { getUser as userLoader } from './pages/editUser';
 
 
 //Router - https://reactrouter.com/en/main/start/tutorial
@@ -71,6 +75,10 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
+        path: "/register",
+        element: <Register />,
+      },
+      {
         path: "/search",
         element: <SearchResults />,
       }
@@ -95,9 +103,14 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "/a/userDetails/:userId",
-        element: <UserDetails />,
-      }
+        path: "/a/editUser/:userId",
+        element: <EditUser />,
+        loader: userLoader,
+      },
+      {
+        path: "/a/addUser",
+        element: <AddUser />,
+      },
     ]
   }
 ]);

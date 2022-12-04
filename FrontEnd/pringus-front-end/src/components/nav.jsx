@@ -77,7 +77,7 @@ function Nav() {
             <Toolbar>
             <Button
                 key="Home"
-                onClick={() => routeChange("/")}
+                onClick={() => routeChange("/home")}
                 sx={{ my: 2, color: 'white', display: 'block', fontWeight: 'bold', fontSize: '20px', pl: 0, width: "150px"}}
              >
                 Pringus
