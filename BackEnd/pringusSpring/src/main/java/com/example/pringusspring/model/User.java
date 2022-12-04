@@ -112,6 +112,19 @@ public class User {
     //this to string method returns a json string of the object
     @Override
     public String toString() {
+        StringBuilder ticketIdList = new StringBuilder();
+        ticketIdList.append("[");
+        for (Ticket ticket : tickets) {
+            ticketIdList.append("{\"id\" : \"");
+            ticketIdList.append(ticket.getTicketID());
+            ticketIdList.append("\"}, ");
+        }
+        if(ticketIdList.length() > 1) {
+            ticketIdList.deleteCharAt(ticketIdList.length() - 1);
+            ticketIdList.deleteCharAt(ticketIdList.length() - 1);
+        }
+        ticketIdList.append("]");
+
         return "{" +
                 "\"id\":\"" + id + '\"' +
                 ", \"email\":\"" + email + '\"' +
@@ -119,7 +132,7 @@ public class User {
                 ", \"firstName\":\"" + firstName + '\"' +
                 ", \"lastName\":\"" + lastName + '\"' +
                 ", \"role\":\"" + role + '\"' +
-                ", \"tickets\":" + tickets.toString() +
+                ", \"tickets\":" + ticketIdList +
                 ", \"userID\":\"" + userID + '\"' +
                 ", \"username\":\"" + username + '\"' +
                 '}';
