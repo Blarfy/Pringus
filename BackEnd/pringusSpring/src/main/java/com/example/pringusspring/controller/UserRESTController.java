@@ -24,8 +24,13 @@ public class UserRESTController {
         return userRepository.findOneByUsername(username).toString();
     }
 
+    @GetMapping("/getByUserID/{userId}")
+    public String getByUserID(@PathVariable String userId) {
+        return userRepository.findByUserId(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")).toString();
+    }
+
     @PutMapping("/updateUser/{userId}")
-    public void updateUser(@PathVariable int userId, @RequestBody User user) {
+    public void updateUser(@PathVariable String userId, @RequestBody User user) {
         User userExists = userRepository.findByUserId(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         if(userExists != null){
             userRepository.save(user);
