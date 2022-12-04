@@ -62,8 +62,8 @@ public class UserRESTController {
         User userExists = userRepository.findByUserId(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         if(userExists != null){
             List<Ticket> tickets = ticketRepository.findAllById(List.of(ticketIds));
-            user.setTickets(tickets);
-            userRepository.save(user);
+            userExists.setTickets(tickets);
+            userRepository.save(userExists);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
