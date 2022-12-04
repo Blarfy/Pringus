@@ -128,29 +128,44 @@ public class User {
     //this to string method returns a json string of the object
     @Override
     public String toString() {
-        StringBuilder ticketIdList = new StringBuilder();
-        ticketIdList.append("[");
-        for (Ticket ticket : tickets) {
-            ticketIdList.append("{\"id\" : \"");
-            ticketIdList.append(ticket.getTicketID());
-            ticketIdList.append("\"}, ");
+        if(tickets != null) {
+            StringBuilder ticketIdList = new StringBuilder();
+            ticketIdList.append("[");
+            for (Ticket ticket : tickets) {
+                ticketIdList.append("{\"id\" : \"");
+                ticketIdList.append(ticket.getTicketID());
+                ticketIdList.append("\"}, ");
+            }
+            if (ticketIdList.length() > 1) {
+                ticketIdList.deleteCharAt(ticketIdList.length() - 1);
+                ticketIdList.deleteCharAt(ticketIdList.length() - 1);
+            }
+            ticketIdList.append("]");
+            return "{" +
+                    "\"id\":\"" + id + '\"' +
+                    ", \"email\":\"" + email + '\"' +
+                    ", \"password\":\"" + password + '\"' +
+                    ", \"firstName\":\"" + firstName + '\"' +
+                    ", \"lastName\":\"" + lastName + '\"' +
+                    ", \"role\":\"" + role + '\"' +
+                    ", \"tickets\":" + ticketIdList +
+                    ", \"userID\":\"" + userID + '\"' +
+                    ", \"username\":\"" + username + '\"' +
+                    '}';
+        } else {
+            return "{" +
+                    "\"id\":\"" + id + '\"' +
+                    ", \"email\":\"" + email + '\"' +
+                    ", \"password\":\"" + password + '\"' +
+                    ", \"firstName\":\"" + firstName + '\"' +
+                    ", \"lastName\":\"" + lastName + '\"' +
+                    ", \"role\":\"" + role + '\"' +
+                    ", \"tickets\":[]" +
+                    ", \"userID\":\"" + userID + '\"' +
+                    ", \"username\":\"" + username + '\"' +
+                    '}';
         }
-        if(ticketIdList.length() > 1) {
-            ticketIdList.deleteCharAt(ticketIdList.length() - 1);
-            ticketIdList.deleteCharAt(ticketIdList.length() - 1);
-        }
-        ticketIdList.append("]");
 
-        return "{" +
-                "\"id\":\"" + id + '\"' +
-                ", \"email\":\"" + email + '\"' +
-                ", \"password\":\"" + password + '\"' +
-                ", \"firstName\":\"" + firstName + '\"' +
-                ", \"lastName\":\"" + lastName + '\"' +
-                ", \"role\":\"" + role + '\"' +
-                ", \"tickets\":" + ticketIdList +
-                ", \"userID\":\"" + userID + '\"' +
-                ", \"username\":\"" + username + '\"' +
-                '}';
+
     }
 }
