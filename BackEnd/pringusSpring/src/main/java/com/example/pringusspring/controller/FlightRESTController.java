@@ -139,4 +139,20 @@ public class FlightRESTController {
         flight.setFlightInfo(flightInfo);
         return new ResponseEntity<>(flightRepository.save(flight), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/deleteFlight/{flightId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ASSOCIATE')")
+    public ResponseEntity<Flight> deleteFlight(@PathVariable String flightId) {
+        Optional<Flight> optionalFlight = flightRepository.findOneByFlightID(flightId);
+        ResponseEntity<Flight> responseEntity;
+
+        if (optionalFlight.isPresent()) {
+            Flight flight = optionalFlight.get();
+            flightRepository.delete(flight);
+            responseEntity = new ResponseEntity<>(HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return responseEntity;
+    }
 }
