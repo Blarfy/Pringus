@@ -16,6 +16,9 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult})
         navigate(key);
     }
 
+    console.log("JSON: ");
+    console.log(json);
+
     const [open, setOpen] = React.useState(Array(json.length).fill(false));
     console.log("OPEN INTIALIZE: ");
     console.log(open);

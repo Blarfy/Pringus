@@ -27,6 +27,8 @@ import Root from './components/root';
 
 import { getFlight as flightLoader } from './pages/editFlight';
 import { getUser as userLoader } from './pages/editUser';
+import { getData as dataLoader } from './pages/dashboard';
+
 
 
 //Router - https://reactrouter.com/en/main/start/tutorial
@@ -102,6 +104,7 @@ const router = createBrowserRouter([
       {
         path: "/a/dashboard",
         element: <Dashboard />,
+        loader: dataLoader,
       },
       {
         path: "/a/editUser/:userId",
