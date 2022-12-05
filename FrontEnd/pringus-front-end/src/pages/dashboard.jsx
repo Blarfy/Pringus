@@ -5,105 +5,79 @@ import { Typography } from '@mui/material';
 import React from 'react';
 
 import { useOutletContext } from 'react-router-dom';
+import { Buffer } from 'buffer';
+
 
 import ObjectList from '../components/ObjectList';
 
 import Login from './login';
 import Home from './home';
 
+async function getTopFlights() {
+    console.log("Get top flights")
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Basic " + Buffer.from("bob:spingleton").toString("base64"));
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    let response = await fetch("http://localhost:8080/Flights/getTopFlights", requestOptions);
+    let data = await response.json();
+    console.log("ATTEMPING TOP FLIGHTS")
+    return data.content;
+}
+
+async function getUsers() {
+    console.log("Get users")
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Basic " + Buffer.from("bob:spingleton").toString("base64"));
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    let response = await fetch("http://localhost:8080/users/getAll", requestOptions);
+    let data = await response.json();
+    console.log("ATTEMPING USERS")
+    console.log(data)
+    return data;
+}
+
 
 function Dashboard() {
     const [user, setUser] = useOutletContext();
     console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
     console.log(user)
-    
 
-    let list = [
-        {
-            "id": 1,
-            "username": "Bruce",
-            "email": "email@gmail.com",
-            "password": "password",
-            "role": "customer",
-            "tickets": []
-        },
-        {
-            "id": 2,
-            "username": "Bob",
-            "email": "email2@gmail.com",
-            "password": "passwordAgain",
-            "role": "admin",
-            "tickets": []
-        },
-        {
-            "id": 3,
-            "username": "Jerry",
-            "email": "gorp@foo.bar",
-            "password": "passwordOnceMore",
-            "role": "associate",
-            "tickets": []
-        },
-        {
-            "id": 4,
-            "username": "Skoo",
-            "email": "goobough@shmail.com",
-            "password": "passEl",
-            "role": "customer",
-            "tickets": ["AF-1234", "AF-1235"]
-        },
-    ];
+    const [list, setList] = React.useState([]);
 
-    let flight = [
-        {
-            "_id":{"$oid":"6386b98ea8a99f64acbd25cc"},
-            "FlightID":"PR0001",
-            "Origin":"PEK",
-            "Destination":"LXA",
-            "Price":"339.56",
-            "Airline":"Pringus Air",
-            "status": "on time",
-            "Flight Info": {
-                "Departure Time":"n/a",
-                "Arrival Time":"n/a",
-                "Airplane":"319",
-                "Seating": {
-                    "First Class": { 
-                        "$numberInt":"12"
-                    },
-                    "Business Class": {
-                        "$numberInt":"36"
-                    },
-                    "Economy Class": {
-                        "$numberInt":"78"
-                    }
-                }
-            }
-        },
-        {
-            "_id":{"$oid":"6386b98ea8a99f64acbd25cc"},
-            "FlightID":"PR0",
-            "Origin":"PEK",
-            "Destination":"LXA",
-            "Price":"339.56",
-            "Airline":"Pringus Air",
-            "Flight Info": {
-                "Departure Time":"n/a",
-                "Arrival Time":"n/a",
-                "Airplane":"319",
-                "Seating": {
-                    "First Class": { 
-                        "$numberInt":"12"
-                    },
-                    "Business Class": {
-                        "$numberInt":"36"
-                    },
-                    "Economy Class": {
-                        "$numberInt":"78"
-                    }
-                }
-            }
-        }
-    ];
+    let userList = getUsers();
+    userList.then((data) => {
+        console.log("GET USERS")
+        console.log(data)
+        setList(data);
+    })
+
+    //let flight = [];
+    const [flight, setFlight] = React.useState();
+
+    //get the array from our promise
+    let topFlights = getTopFlights();
+    topFlights.then((data) => {
+        console.log("TOP FLIGHTS")
+        console.log(data)
+        // flight = data;
+        // console.log(flight);
+        setFlight(data);
+    })
+
 
     return (
         <>
