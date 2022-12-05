@@ -1,4 +1,4 @@
-package com.example.pringusspring.Service;
+package com.example.pringusspring.service;
 
 import com.example.pringusspring.model.User;
 import com.example.pringusspring.repository.UserRepository;

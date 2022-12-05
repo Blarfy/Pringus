@@ -1,6 +1,6 @@
 package com.example.pringusspring.controller;
 
-import com.example.pringusspring.Service.MyUserDetailsService;
+import com.example.pringusspring.service.MyUserDetailsService;
 import com.example.pringusspring.model.Ticket;
 import com.example.pringusspring.model.User;
 import com.example.pringusspring.repository.TicketRepository;
@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController

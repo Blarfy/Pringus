@@ -5,11 +5,12 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PlaneRepository extends MongoRepository<Plane, String> {
     @Query("{ 'name' : ?0 }")
-    public List<Plane> findByName(String name);
+    public Optional<Plane> findByName(String name);
 
     @Query("{ 'code' : ?0 }")
-    public List<Plane> findByCode(String code);
+    public Optional<Plane> findByCode(String code);
 }

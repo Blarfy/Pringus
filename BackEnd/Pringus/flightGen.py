@@ -27,17 +27,23 @@ for i in range(randomloop):
     randomPrice = str(random.randint(100, 1000)) + '.' + str(random.randint(0, 99))
 
     try:
-        try: 
+        try:
+            #Figure out if first class
             count = airplane['first']['count']
             pattern = airplane['first']['pattern']
             first = []
         except:
             first = 'none'
 
+    #You have a first class, start generation
         seatsPerRow = 0
+        #Counts seating per row
         for row in pattern:
             seatsPerRow += pattern[row - 1]
+
+        #getting number of rows
         rows = count / seatsPerRow
+        #Getting stray stuff
         leftover = count % seatsPerRow
         try:
             stray = airplane['first']['stray']
@@ -48,10 +54,12 @@ for i in range(randomloop):
         except: 
             strow = rows
 
+        #Makes empty seats
         patternBool = []
         for entry in range(seatsPerRow):
             patternBool.append(False)
 
+        #Makes empty seats for the stray row
         strowBool = []
         for num in stray:
             if(num == 0):
@@ -61,9 +69,12 @@ for i in range(randomloop):
                     strowBool.append(False)
 
         for row in range(int(rows)):
+            #Is this a stray row?
             if row == strow:
+                #appends the stray row to the end
                 first.append(strowBool)
             else:
+                #Not a stray row, generate normal row
                 tempBool = patternBool.copy()
                 for i in range(seatsPerRow):
                     if random.randint(0, 2) == 1:

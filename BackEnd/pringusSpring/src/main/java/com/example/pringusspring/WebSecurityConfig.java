@@ -1,6 +1,6 @@
 package com.example.pringusspring;
 
-import com.example.pringusspring.Service.MyUserDetailsService;
+import com.example.pringusspring.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -36,6 +36,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((requests) ->
                         requests.requestMatchers("/users/getAll").permitAll()
                                 .requestMatchers("/Flights/**").permitAll()
+                                .requestMatchers("/login/").authenticated()
                                 .anyRequest().authenticated()
 
                 )

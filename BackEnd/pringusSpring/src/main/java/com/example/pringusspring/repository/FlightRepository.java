@@ -5,9 +5,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FlightRepository extends MongoRepository<Flight, String> {
 
-    @Query("{ 'FlightID' : ?0 }")
-    public List<Flight> findByFlightID(String FlightID);
+    @Query("{ 'flightID' : ?0 }")
+    public Optional<Flight> findOneByFlightID(String FlightID);
 }

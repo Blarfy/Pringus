@@ -1,9 +1,13 @@
 package com.example.pringusspring.model;
 
+import com.example.pringusspring.serializer.SeatingSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 public class Seating {
-    private int count;
-    private int[] pattern;
-    private int[] stray;
+    private int count = 0;
+    private int[] pattern = new int[0];
+    //@JsonSerialize(using = SeatingSerializer.class)
+    private int[] stray = new int[0];
 
     public Seating() {
     }
