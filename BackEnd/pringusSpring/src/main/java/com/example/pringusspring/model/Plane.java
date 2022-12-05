@@ -65,6 +65,10 @@ public class Plane {
         this.code = code;
     }
 
+    public String getId() {
+        return id;
+    }
+
     //returns a json representation of the object
     @Override
     public String toString(){

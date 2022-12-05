@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SeatingConverter {
-    public static boolean[][] convert(Seating s){
+    public static Boolean[][] convert(Seating s){
         if(s == null){
             return null;
         }
@@ -39,9 +39,9 @@ public class SeatingConverter {
         }
 
         //convert seating to boolean[][]
-        boolean[][] seatingArray = new boolean[seating.size()][];
+        Boolean[][] seatingArray = new Boolean[seating.size()][];
         for (int i = 0; i < seating.size(); i++) {
-            seatingArray[i] = new boolean[seating.get(i).size()];
+            seatingArray[i] = new Boolean[seating.get(i).size()];
             for (int j = 0; j < seating.get(i).size(); j++) {
                 seatingArray[i][j] = seating.get(i).get(j);
             }

@@ -13,4 +13,6 @@ public interface PlaneRepository extends MongoRepository<Plane, String> {
 
     @Query("{ 'code' : ?0 }")
     public Optional<Plane> findByCode(String code);
+
+    public Optional<Plane> findPlaneByCode(String planeCode);
 }

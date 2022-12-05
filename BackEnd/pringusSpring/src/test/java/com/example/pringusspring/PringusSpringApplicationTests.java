@@ -29,8 +29,8 @@ class PringusSpringApplicationTests {
         seating.setPattern(new int[]{1});
         seating.setStray(null);
 
-        boolean[][] seatingArray = SeatingConverter.convert(seating);
-        boolean[][] expected = new boolean[][]{{false}, {false}, {false}};
+        Boolean[][] seatingArray = SeatingConverter.convert(seating);
+        Boolean[][] expected = new Boolean[][]{{false}, {false}, {false}};
 
         assert Arrays.deepEquals(seatingArray, expected);
     }
@@ -42,8 +42,8 @@ class PringusSpringApplicationTests {
         seating.setPattern(new int[]{1,1});
         seating.setStray(null);
 
-        boolean[][] seatingArray = SeatingConverter.convert(seating);
-        boolean[][] expected = new boolean[][]{{false, false}, {false, false}};
+        Boolean[][] seatingArray = SeatingConverter.convert(seating);
+        Boolean[][] expected = new Boolean[][]{{false, false}, {false, false}};
 
         assert Arrays.deepEquals(seatingArray, expected);
     }
@@ -55,8 +55,8 @@ class PringusSpringApplicationTests {
         seating.setPattern(new int[]{1,1});
         seating.setStray(new int[]{1, 0});
 
-        boolean[][] seatingArray = SeatingConverter.convert(seating);
-        boolean[][] expected = new boolean[][]{{false, false}, {false, false}, {false, true}};
+        Boolean[][] seatingArray = SeatingConverter.convert(seating);
+        Boolean[][] expected = new Boolean[][]{{false, false}, {false, false}, {false, true}};
 
         assert Arrays.deepEquals(seatingArray, expected);
     }
@@ -68,8 +68,8 @@ class PringusSpringApplicationTests {
         seating.setPattern(new int[]{1,1});
         seating.setStray(null);
 
-        boolean[][] seatingArray = SeatingConverter.convert(seating);
-        boolean[][] expected = new boolean[][]{{false, false}, {false, false}, {false, false}};
+        Boolean[][] seatingArray = SeatingConverter.convert(seating);
+        Boolean[][] expected = new Boolean[][]{{false, false}, {false, false}, {false, false}};
 
         assert Arrays.deepEquals(seatingArray, expected);
     }
@@ -81,8 +81,8 @@ class PringusSpringApplicationTests {
         seating.setPattern(new int[]{1,1});
         seating.setStray(new int[]{1, 0});
 
-        boolean[][] seatingArray = SeatingConverter.convert(seating);
-        boolean[][] expected = new boolean[][]{{false, false}, {false, false}, {false, false}, {false, true}};
+        Boolean[][] seatingArray = SeatingConverter.convert(seating);
+        Boolean[][] expected = new Boolean[][]{{false, false}, {false, false}, {false, false}, {false, true}};
 
         assert Arrays.deepEquals(seatingArray, expected);
     }
@@ -94,8 +94,8 @@ class PringusSpringApplicationTests {
         seating.setPattern(new int[]{3,3});
         seating.setStray(new int[]{1, 0, 0, 1, 0, 0});
 
-        boolean[][] seatingArray = SeatingConverter.convert(seating);
-        boolean[][] expected = new boolean[][]{{false, false, false, false, false, false}, {false, true, true, false, true, true}};
+        Boolean[][] seatingArray = SeatingConverter.convert(seating);
+        Boolean[][] expected = new Boolean[][]{{false, false, false, false, false, false}, {false, true, true, false, true, true}};
 
         assert Arrays.deepEquals(seatingArray, expected);
     }
@@ -103,16 +103,16 @@ class PringusSpringApplicationTests {
     @Test
     void testSeatingConverterWithPlane(){
         Plane plane = planeRepository.findByCode("CRJ").orElseThrow(() -> new AssertionFailure("Plane not found"));
-        boolean[][] FirstSeatingArray = SeatingConverter.convert(plane.getFirst());
-        boolean[][] BusinessSeatingArray = SeatingConverter.convert(plane.getBusiness());
-        boolean[][] EconomySeatingArray = SeatingConverter.convert(plane.getEconomy());
+        Boolean[][] FirstSeatingArray = SeatingConverter.convert(plane.getFirst());
+        Boolean[][] BusinessSeatingArray = SeatingConverter.convert(plane.getBusiness());
+        Boolean[][] EconomySeatingArray = SeatingConverter.convert(plane.getEconomy());
 
         //firstExpected [[false, false, false], [false, false, false], [false, false, false], [false, true, true]]
-        boolean[][] firstExpected = new boolean[][]{{false, false, false}, {false, false, false}, {false, false, false}, {false, true, true}};
+        Boolean[][] firstExpected = new Boolean[][]{{false, false, false}, {false, false, false}, {false, false, false}, {false, true, true}};
         //businessExpected [[false, false, false, false], [false, false, false, false], [false, false, false, false], [false, false, false, false], [false, false, false, false]]
-        boolean[][] businessExpected = new boolean[][]{{false, false, false, false}, {false, false, false, false}, {false, false, false, false}, {false, false, false, false}, {false, false, false, false}};
+        Boolean[][] businessExpected = new Boolean[][]{{false, false, false, false}, {false, false, false, false}, {false, false, false, false}, {false, false, false, false}, {false, false, false, false}};
         //economyExpected [[false, false, false, false], [false, false, false, false], [false, false, false, false], [false, false, false, false], [false, false, false, false]]
-        boolean[][] economyExpected = new boolean[][]{{false, false, false, false}, {false, false, false, false}, {false, false, false, false}, {false, false, false, false}, {false, false, false, false}};
+        Boolean[][] economyExpected = new Boolean[][]{{false, false, false, false}, {false, false, false, false}, {false, false, false, false}, {false, false, false, false}, {false, false, false, false}};
 
         assert Arrays.deepEquals(FirstSeatingArray, firstExpected);
         assert Arrays.deepEquals(BusinessSeatingArray, businessExpected);
