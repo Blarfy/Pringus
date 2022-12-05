@@ -1,6 +1,7 @@
 package com.example.pringusspring.model;
 
 import com.example.pringusspring.repository.TicketRepository;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -13,9 +14,11 @@ import java.util.List;
 @Document(collection = "Users")
 public class User {
     @Id
+    @JsonIgnore
     private String id;
 
     private String email;
+    @JsonIgnore
     private String password;
     private String firstName;
     private String lastName;
@@ -96,7 +99,11 @@ public class User {
     }
 
     public void setRole(String role) {
-        this.role = role;
+        if (role.equals("ADMIN") || role.equals("ASSOCIATE") || role.equals("CUSTOMER")) {
+            this.role = role;
+        } else {
+            throw new IllegalArgumentException("Role must be either ADMIN, ASSOCIATE or CUSTOMER");
+        }
     }
 
     public List<Ticket> getTickets() {
@@ -142,7 +149,6 @@ public class User {
             return "{" +
                     "\"id\":\"" + id + '\"' +
                     ", \"email\":\"" + email + '\"' +
-                    ", \"password\":\"" + password + '\"' +
                     ", \"firstName\":\"" + firstName + '\"' +
                     ", \"lastName\":\"" + lastName + '\"' +
                     ", \"role\":\"" + role + '\"' +
@@ -154,7 +160,6 @@ public class User {
             return "{" +
                     "\"id\":\"" + id + '\"' +
                     ", \"email\":\"" + email + '\"' +
-                    ", \"password\":\"" + password + '\"' +
                     ", \"firstName\":\"" + firstName + '\"' +
                     ", \"lastName\":\"" + lastName + '\"' +
                     ", \"role\":\"" + role + '\"' +

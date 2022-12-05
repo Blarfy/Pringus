@@ -3,6 +3,7 @@ package com.example.pringusspring.service;
 import com.example.pringusspring.model.User;
 import com.example.pringusspring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,6 +22,10 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(username + " not found");
         }
         return new MyUserDetails(user);
+    }
+
+    public User getLoggedInUser() {
+        return userRepository.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public void saveUser(User user) {
