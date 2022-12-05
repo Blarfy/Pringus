@@ -77,6 +77,13 @@ public class FlightRESTController {
         return flight != null ? new ResponseEntity<>(flight, HttpStatus.OK) : new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/getByFlightID/{flightId}/flightInfo")
+    public ResponseEntity<?> getFlightInfo(@PathVariable String flightId) {
+        Flight flight = flightRepository.findOneByFlightID(flightId).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Flight Not Found"));
+        String error = "Flight not found";
+        return flight != null ? new ResponseEntity<>(flight.getFlightInfo(), HttpStatus.OK) : new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
     @PutMapping("/updateFlight/{flightId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'ASSOCIATE')")
     public ResponseEntity<Flight> updateFlight(@PathVariable String flightId, @RequestBody Flight updatedFlight) {
