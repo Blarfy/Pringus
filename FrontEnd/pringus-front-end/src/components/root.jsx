@@ -11,12 +11,12 @@ import Nav from './nav';
 
 function Root() {
     const theme = useTheme();
-    // const [user, setUser] = React.useState(localStorage.getItem("user"));
-    let userOBJ = {
-        user: "BUTTS",
-        role: "ADMIN"
-    }
-    const [user, setUser] = React.useState(userOBJ);
+    const [user, setUser] = React.useState(localStorage.getItem("user"));
+    // let userOBJ = {
+    //     user: "BUTTS",
+    //     role: "ADMIN"
+    // }
+    // const [user, setUser] = React.useState(userOBJ);
     
     console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
     console.log(user)
@@ -25,7 +25,7 @@ function Root() {
             minHeight: "100vh",
             backgroundColor: `${theme.palette.canvas.main}`,
         }}>
-            <Nav />
+            <Nav user={user} setUser={setUser} />
             <div css={{paddingTop: "100px", display: "flex", flexDirection: "row", justifyContent: "space-around", flexWrap: "wrap"}}>
             <Outlet context={[user, setUser]} />
             </div>

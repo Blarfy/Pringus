@@ -17,25 +17,30 @@ function FlightForm({json, isAdd, isEdit}) {
     let initialForm; 
 
     if (isEdit) {
-        initialForm = {...json[0]};
+        initialForm = {...json};
     } else if (isAdd) {
         initialForm = {
-            FlightID: "",
-            Airline: "",
-            Status: "",
-            Origin: "",
-            Destination: "",
-            Price: "",
-            FlightInfo: {
-                Airplane: "",
-                "Departure Time": "",
-                "Arrival Time": "",
+            flightID: "",
+            airline: "",
+            status: "",
+            origin: "",
+            destination: "",
+            price: "",
+            flightInfo: {
+                plane: {
+                    code: "",
+                },
+                departureTime: "",
+                arrivalTime: "",
             }
 
         }
     }
 
     const [form, setForm] = React.useState(initialForm);
+    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSUUUUUUUUUUUUUUUUHHHHHHHHHHHHHHHHHHHHH")
+    console.log(json);
+    console.log(initialForm);
 
     let [aircraft, setAircraft] = React.useState(); //wait on api
 
@@ -46,55 +51,55 @@ function FlightForm({json, isAdd, isEdit}) {
 
     const handleFlightCodeChange = (event) => {
         let newForm = {...form};
-        newForm.FlightID = event.target.value;
+        newForm.dlightID = event.target.value;
         setForm(newForm);
     }
 
     const handleAircraftChange = (event) => {
         let newForm = {...form};
-        newForm.FlightInfo.Airplane = event.target.value;
+        newForm.flightInfo.plane.code = event.target.value;
         setForm(newForm);
     }
 
     const handleAirlineChange = (event) => {
         let newForm = {...form};
-        newForm.Airline = event.target.value;
+        newForm.airline = event.target.value;
         setForm(newForm);
     }
 
     const handlePriceChange = (event) => {
         let newForm = {...form};
-        newForm.Price = event.target.value;
+        newForm.price = event.target.value;
         setForm(newForm);
     }
 
     const handleStatusChange = (event) => {
         let newForm = {...form};
-        newForm.Status = event.target.value;
+        newForm.status = event.target.value;
         setForm(newForm);
     }
 
     const handleOriginChange = (event) => {
         let newForm = {...form};
-        newForm.Origin = event.target.value;
+        newForm.origin = event.target.value;
         setForm(newForm);
     }
 
     const handleDestinationChange = (event) => {
         let newForm = {...form};
-        newForm.Destination = event.target.value;
+        newForm.destination = event.target.value;
         setForm(newForm);
     }
 
     const handleDepartureChange = (event) => {
         let newForm = {...form};
-        newForm.FlightInfo["Departure Time"] = event.target.value;
+        newForm.flightInfo.departureTime = event.target.value;
         setForm(newForm);
     }
 
     const handleArrivalChange = (event) => {
         let newForm = {...form};
-        newForm.FlightInfo["Arrival Time"] = event.target.value;
+        newForm.flightInfo.arrivalTime = event.target.value;
         setForm(newForm);
     }
 
@@ -114,8 +119,10 @@ function FlightForm({json, isAdd, isEdit}) {
             body: raw,
             redirect: 'follow'
         };
+        let url = `http://localhost:8080/Flights/${isAdd ? "addFlight" : "updateFlight/" + form.flightID}`;
+        console.log(url);
 
-        fetch(`http://localhost:8080/Flights/` + isAdd ? "create" : "update", requestOptions)
+        fetch(url, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
@@ -138,10 +145,12 @@ function FlightForm({json, isAdd, isEdit}) {
                     <Typography>Aircraft</Typography>
                 </Grid>
                 <Grid item xs={6} md={6}>
-                    <TextField fullWidth size='small' placeholder="Flight Code" variant='outlined' value={form.FlightID} onChange={handleFlightCodeChange}/>
+                    {console.log("GONGONGONGONGONGONGGONGONGOGNGONGONGOGN")}
+                    {console.log(form)}
+                    <TextField fullWidth size='small' placeholder="Flight Code" variant='outlined' value={form.flightID} onChange={handleFlightCodeChange} disabled/>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Select fullWidth value={form.FlightInfo.Airplane} onChange={handleAircraftChange}> 
+                    <Select fullWidth value={form.flightInfo.plane.code} onChange={handleAircraftChange} disabled={!isAdd}> 
                         {aircraft ? aircraft.map((plane) => <MenuItem value={plane.code}>{plane.code}</MenuItem>) : <MenuItem value="Loading...">Loading...</MenuItem>}
                     </Select>
                 </Grid>
@@ -152,10 +161,10 @@ function FlightForm({json, isAdd, isEdit}) {
                     <Typography>Price</Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField fullWidth size='small' placeholder="Airline" value={form.Airline} onChange={handleAirlineChange}/>
+                    <TextField fullWidth size='small' placeholder="Airline" value={form.airline} onChange={handleAirlineChange}/>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField fullWidth size='small' placeholder="Price" value={form.Price} onChange={handlePriceChange}/>
+                    <TextField fullWidth size='small' placeholder="Price" value={form.price} onChange={handlePriceChange}/>
                 </Grid>
                 {isEdit ? (
                     <>
@@ -163,7 +172,7 @@ function FlightForm({json, isAdd, isEdit}) {
                             <Typography>Status</Typography>
                         </Grid>
                         <Grid item xs={12} md={10.5}>
-                            <TextField fullWidth size='small' placeholder="Status" value={form.Status} onChange={handleStatusChange} />
+                            <TextField fullWidth size='small' placeholder="Status" value={form.status} onChange={handleStatusChange} />
                         </Grid>
                     </>
                 ) : null}
@@ -174,10 +183,10 @@ function FlightForm({json, isAdd, isEdit}) {
                     <Typography>Arrival Airport Code</Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField fullWidth size='small' placeholder="Departure Airport" value={form.Origin} onChange={handleOriginChange}/>
+                    <TextField fullWidth size='small' placeholder="Departure Airport" value={form.origin} onChange={handleOriginChange}/>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField fullWidth size='small' placeholder="Arrival Airport" value={form.Destination} onChange={handleDestinationChange}/>
+                    <TextField fullWidth size='small' placeholder="Arrival Airport" value={form.destination} onChange={handleDestinationChange}/>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Typography>Estimated Departure Time</Typography>
@@ -186,10 +195,10 @@ function FlightForm({json, isAdd, isEdit}) {
                     <Typography>Estimated Arrival Time</Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField fullWidth size='small' placeholder="Departure Time" value={form.FlightInfo["Departure Time"]} onChange={handleDepartureChange}/>
+                    <TextField fullWidth size='small' placeholder="Departure Time" value={form.flightInfo.departureTime} onChange={handleDepartureChange}/>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField fullWidth size='small' placeholder="Arrival Time" value={form.FlightInfo["Arrival Time"]} onChange={handleArrivalChange}/>
+                    <TextField fullWidth size='small' placeholder="Arrival Time" value={form.flightInfo.arrivalTime} onChange={handleArrivalChange}/>
                 </Grid>
                 <Grid item xs={0} md={6}></Grid>
                 <Grid item xs={12} md={3}>

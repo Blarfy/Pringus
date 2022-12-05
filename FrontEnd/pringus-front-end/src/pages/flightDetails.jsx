@@ -47,38 +47,72 @@ function FlightDetails() {
         }
     }
 
+    // const getAirportName = async (airportCode) => {
+    //     var myHeaders = new Headers();
+    //     myHeaders.append("Content-Type", "application/json");
+    //     myHeaders.append("Authorization", "Basic " + Buffer.from("bob:spingleton").toString("base64"));
+    //     myHeaders.append("Access-Control-Allow-Origin", "http://localhost:3000");
+
+    //     var requestOptions = {
+    //         method: 'GET',
+    //         headers: myHeaders,
+    //         redirect: 'follow'
+    //     };
+
+    //     let response = await fetch(`http://localhost:8080/Planes/getByFlightID/${id.params.flightId}`, requestOptions);
+    //     let flight = await response.json();
+    //     // console.log(flight);
+    //     return flight;
+    // }
+
+
+    const getDate = (date) => {
+        let d = new Date(date);
+        return d.toDateString();
+    }
+
+    const getTime = (date) => {
+        let d = new Date(date);
+        return d.toLocaleTimeString();
+    }
+
     return (
         <>
-        {user === null ? (
+        {user !== null ? (
         <Card style={cardStyle}>
+            {console.log("AAHAHAHHAHAHAHAHAHHAHA")}
+            {console.log(flight)}
             <Typography variant='h4'>Flight Details</Typography>
             <Grid container spacing={1} sx={{mt:"5px"}}>
-                <Grid item xs={12} md={12}>
+                {/* <Grid item xs={12} md={12}>
                     <Typography variant='h3'>Salt Lake City to Boston</Typography>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} md={3}>
                     <Typography>Flight Code:</Typography>
-                    <Typography>{flight.FlightID}</Typography>
+                    <Typography>{flight.flightID}</Typography>
                 </Grid>
                 <Grid item xs={12} md={5}>
                     <Typography>Price:</Typography>
-                    <Typography>{flight.Price}</Typography>
+                    <Typography>{flight.price}</Typography>
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <Typography>Airline:</Typography>
-                    <Typography>{flight.Airline}</Typography>
+                    <Typography>{flight.airline}</Typography>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                    <Typography>Departure Airport: {flight.Origin}</Typography>
-                    <Typography>Arrival Airport: {flight.Destination}</Typography>
+                    <Typography>Departure Airport: {flight.origin}</Typography>
+                    <Typography>Arrival Airport: {flight.destination}</Typography>
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Typography>Aircraft:</Typography>
-                    <Typography>{flight["Flight Info"].Airplane}</Typography>
+                    <Typography>{flight.flightInfo.plane.code}</Typography>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                    <Typography>Departure Time: {flight["Flight Info"]["Departure Time"]}</Typography>
-                    <Typography>Arrival Time: {flight["Flight Info"]["Arrival Time"]}</Typography>
+                    
+                    <Typography>Departure: </Typography>
+                    <Typography>{getDate(flight.flightInfo.departureTime)} {getTime(flight.flightInfo.departureTime)}</Typography>
+                    <Typography>Arrival:</Typography>
+                    <Typography>{getDate(flight.flightInfo.arrivalTime)} {getTime(flight.flightInfo.arrivalTime)}</Typography>
                 </Grid>
                 <Grid item xs={12} md={4}>
                 </Grid>

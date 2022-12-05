@@ -107,11 +107,12 @@ function Dashboard() {
 
     return (
         <>
-            {user.role === "ADMIN" ? 
-            (<>
+            {user === null ? 
+            (<Login />)
+             : user.role === "ADMIN" ? (<>
                 <ObjectList type="User" json={list} addButton isAdminPage />
                 <ObjectList type="Flight" json={flight} addButton isAdminPage />
-            </>) : user === null ? (<Login />) : (<Home />)}
+            </>) : (<Home />)}
             
         </>
     );

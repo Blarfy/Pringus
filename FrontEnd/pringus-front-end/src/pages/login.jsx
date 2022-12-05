@@ -2,6 +2,7 @@
 //Login page
 import React from 'react';
 import LoginMenu from '../components/loginMenu';
+import { useOutletContext } from 'react-router-dom';
 
 function Login() {
     return (

@@ -17,6 +17,8 @@ function UserForm({json, isAdd, isEdit}) {
     let initialTickets;
 
     if (isEdit) {
+        console.log("___________________________________________________________")
+        console.log(json);
         initialForm = {...json};
         if (initialForm.tickets) {
             initialTickets = initialForm.tickets.map((ticket) => {
@@ -58,7 +60,7 @@ function UserForm({json, isAdd, isEdit}) {
     }
 
     const addNewUser = (form) => {
-        let url = 'http://localhost:8080/Users';
+        let url = 'http://localhost:8080/users/addUser';
         let auth = "Basic " + Buffer.from("bob:spingleton").toString("base64");
         let body = JSON.stringify(form) + ", " + JSON.stringify(tickets);
         console.log(body);
@@ -94,10 +96,7 @@ function UserForm({json, isAdd, isEdit}) {
             },
             body: JSON.stringify(body)
         }
-        fetch(url, options)
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.log(error));
+        fetch(url, options).catch(error => console.log(error));
     }
 
     const handleUsernameChange = (event) => {

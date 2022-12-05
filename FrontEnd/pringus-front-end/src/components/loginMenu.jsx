@@ -21,7 +21,7 @@ function LoginMenu({style, isRegister}) {
 
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const [user, setUser] = React.useState(null);
+    const [user, setUser] = React.useState(localStorage.getItem("user"));
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -45,16 +45,19 @@ function LoginMenu({style, isRegister}) {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Basic " + Buffer.from(`${user.username}:${user.password}`).toString("base64")
+                    "Authorization": "Basic " + Buffer.from(`${userObj.username}:${userObj.password}`).toString("base64")
                 },
             }).then((response) => {
                 if (response.status === 200) {
-                    setUser(userObj);
-                    localStorage.setItem("user", JSON.stringify(userObj));
+                    console.log("Login successful");
                     return response.json();
                 } else {
                     return null;
                 }
+            }).then((data) => {
+                setUser(data)
+                localStorage.setItem("user", JSON.stringify(data));
+                navigate("/home");
             }).catch((error) => {
                 console.log(error);
             });
@@ -90,7 +93,7 @@ function LoginMenu({style, isRegister}) {
                     <Typography sx={{mt: "8px"}} >Username</Typography>
                 </Grid>
                 <Grid item xs={12} md={8.5}>
-                    <TextField fullWidth size='small' placeholder="Username" value={user} onChange={handleUsernameChange} />
+                    <TextField fullWidth size='small' placeholder="Username" value={username} onChange={handleUsernameChange} />
                 </Grid>
                 {isRegister ? (
                     <>

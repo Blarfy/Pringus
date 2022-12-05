@@ -58,19 +58,28 @@ const Search = styled('div')(({ theme }) => ({
 
 
 
-function Nav() {
-    let theme = useTheme();
+function Nav({user, setUser}) {
+  let theme = useTheme();
+  let loggedIn = (user) ? true : false;
 
-    let navigate = useNavigate();
-    const routeChange = (key) => {
-        navigate(key);
-    }
+  let navigate = useNavigate();
+  const routeChange = (key) => {
+      navigate(key);
+  }
 
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-          navigate(`/search/${event.target.value}`);
-        }
+  const handleKeyDown = (event) => {
+      if (event.key === 'Enter') {
+        navigate(`/search/${event.target.value}`);
       }
+  }
+
+  const handleLogout = (event) => {
+      localStorage.removeItem("user");
+      setUser(null);
+      loggedIn = false;
+      navigate("/login");
+  }
+
 
     return (
         <AppBar sx={{height: "80px"}}>
@@ -92,13 +101,14 @@ function Nav() {
                 onKeyDown={handleKeyDown}
                 />
             </Search>
-            <Button
-                key="Admin"
-                onClick={() => routeChange("/a/dashboard")}
-                sx={{ my: 2, color: 'white', display: 'block', ml: "25 px" }}
-             >
-                Admin
-            </Button>
+            {user !== null && user.role === "ADMIN" ? (
+              <Button
+                  key="Admin"
+                  onClick={() => routeChange("/a/dashboard")}
+                  sx={{ my: 2, color: 'white', display: 'block', ml: "25 px" }}
+              >
+                  Admin
+              </Button>) : null}
             <Button
                 key="Home"
                 onClick={() => routeChange("/home")}
@@ -106,11 +116,20 @@ function Nav() {
              >
                 Home
             </Button>
+            {loggedIn ? <>
+            <Button
+                key="Logout"
+                onClick={handleLogout}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Logout
+            </Button>
+            </> : (
             <Button 
                 key="Login"
                 onClick={() => routeChange("/login")}
                 sx={{ my: 2, color: 'white', display: 'block' }}    
-            >Login</Button>
+            >Login</Button>)}
             </Toolbar>
         </AppBar>
     );

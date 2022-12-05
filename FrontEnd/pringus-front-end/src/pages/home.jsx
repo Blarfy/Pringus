@@ -13,7 +13,13 @@ import Login from './login';
 function Home() {
     const [user, setUser] = useOutletContext();
     console.log("BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-    console.log(user)
+    
+
+    React.useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem("user")));
+    }, []);
+
+
 
     let flights = [
         {
