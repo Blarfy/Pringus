@@ -8,6 +8,7 @@ import com.example.pringusspring.util.SeatingConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -90,5 +91,24 @@ public class FlightRESTController {
             responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return responseEntity;
+    }
+
+    @PostMapping("/addFlight")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ASSOCIATE')")
+    public ResponseEntity<Flight> addFlight(@RequestBody Flight flight) {
+        if (flightRepository.findOneByFlightID(flight.getFlightID()).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        FlightInfo flightInfo = flight.getFlightInfo();
+        Plane plane = flightInfo.getPlane();
+        flightInfo.setPlane(planeRepository.findByCode(plane.getCode()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Plane Not Found")));
+        FlightSeating flightSeating = new FlightSeating(
+                SeatingConverter.convert(flightInfo.getPlane().getBusiness()),
+                SeatingConverter.convert(flightInfo.getPlane().getEconomy()),
+                SeatingConverter.convert(flightInfo.getPlane().getFirst())
+        );
+        flightInfo.setSeating(flightSeating);
+        flight.setFlightInfo(flightInfo);
+        return new ResponseEntity<>(flightRepository.save(flight), HttpStatus.CREATED);
     }
 }

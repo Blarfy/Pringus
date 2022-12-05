@@ -8,6 +8,9 @@ import java.util.List;
 
 public class SeatingConverter {
     public static boolean[][] convert(Seating s){
+        if(s == null){
+            return null;
+        }
         int count = s.getCount();
         int[] pattern = s.getPattern();
         int[] stray = s.getStray();
