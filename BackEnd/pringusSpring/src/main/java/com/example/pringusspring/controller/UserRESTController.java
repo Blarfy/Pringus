@@ -9,12 +9,18 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -43,8 +49,28 @@ public class UserRESTController {
     }
 
     @GetMapping("/getByUserID/{userId}")
-    public String getByUserID(@PathVariable String userId) {
-        return userRepository.findByUserId(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")).toString();
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<User> getByUserID(@PathVariable String userId) {
+        User user = userRepository.findByUserID(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+    }
+
+    @GetMapping("/getByUserID/{userId}/tickets")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<Page<Ticket>> getTicketsByUserId(@PathVariable String userId, @RequestParam Optional<Integer> page) {
+        int pageP = page.orElse(0);
+        User user = userRepository.findByUserID(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        if (user != null) {
+            Pageable p = PageRequest.of(pageP, 10);
+            Page<Ticket> tickets = ticketRepository.findTicketsByUser_Id(user.getId(), p);
+            return new ResponseEntity<>(tickets, HttpStatus.OK);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
     }
 
     @PutMapping("/updateUser/{userId}")
@@ -66,10 +92,9 @@ public class UserRESTController {
                 objectNode.get("user").get("userID").asText(),
                 objectNode.get("user").get("username").asText());
 
-        User userExists = userRepository.findByUserId(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        User userExists = userRepository.findByUserID(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         if(userExists != null){
-            List<Ticket> tickets = ticketRepository.findAllById(List.of(ticketIds));
-            userExists.setTickets(tickets);
+            userExists.setTickets(List.of(ticketIds));
             userExists.setEmail(user.getEmail());
             userExists.setPassword(passwordEncoder.encode(user.getPassword()));
             userExists.setFirstName(user.getFirstName());

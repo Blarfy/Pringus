@@ -3,7 +3,10 @@ package com.example.pringusspring.controller;
 import com.example.pringusspring.model.Ticket;
 import com.example.pringusspring.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/tickets")
@@ -18,8 +21,13 @@ public class TicketRESTController {
     }
 
     @GetMapping("/getTicket/{id}")
-    public String getTicketById(@PathVariable String id) {
-        return ticketRepository.findByTicketID(id).toString();
+    public ResponseEntity<Ticket> getTicketById(@PathVariable String id) {
+        Ticket ticket = ticketRepository.findByTicketID(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found"));
+        if (ticket != null) {
+            return new ResponseEntity<>(ticket, HttpStatus.OK);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found");
+        }
     }
 
     @PostMapping("/createTicket")

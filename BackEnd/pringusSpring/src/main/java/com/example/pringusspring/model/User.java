@@ -1,14 +1,11 @@
 package com.example.pringusspring.model;
 
-import com.example.pringusspring.repository.TicketRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.mongodb.core.mapping.Unwrapped;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Document(collection = "Users")
@@ -23,8 +20,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String role;
-    @DBRef
-    private List<Ticket> tickets;
+    private List<String> tickets;
     private String userID;
     private String username;
 
@@ -43,7 +39,7 @@ public class User {
         this.username = username;
     }
 
-    public User(String email, String password, String firstName, String lastName, String role, List<Ticket> tickets, String userID, String username) {
+    public User(String email, String password, String firstName, String lastName, String role, List<String> tickets, String userID, String username) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -106,11 +102,11 @@ public class User {
         }
     }
 
-    public List<Ticket> getTickets() {
+    public List<String> getTickets() {
         return tickets;
     }
 
-    public void setTickets(List<Ticket> tickets) {
+    public void setTickets(List<String> tickets) {
         this.tickets = tickets;
     }
 
@@ -136,9 +132,9 @@ public class User {
         if(tickets != null) {
             StringBuilder ticketIdList = new StringBuilder();
             ticketIdList.append("[");
-            for (Ticket ticket : tickets) {
+            for (String ticket : tickets) {
                 ticketIdList.append("{\"id\" : \"");
-                ticketIdList.append(ticket.getTicketID());
+                ticketIdList.append(ticket);
                 ticketIdList.append("\"}, ");
             }
             if (ticketIdList.length() > 1) {

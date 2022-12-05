@@ -1,5 +1,6 @@
 package com.example.pringusspring;
 
+import com.example.pringusspring.repository.UserRepository;
 import com.example.pringusspring.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,9 @@ public class WebSecurityConfig {
 
     @Autowired
     private MyUserDetailsService userDetailsService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Bean
     public AuthenticationProvider userDetailsService() {
@@ -47,6 +51,7 @@ public class WebSecurityConfig {
                 .httpBasic();
 
         //System.out.println(passwordEncoder().encode("spingleton"));
+        userDetailsService.saveUser(userRepository.findOneByUsername("bob").get());
         return http.build();
     }
 

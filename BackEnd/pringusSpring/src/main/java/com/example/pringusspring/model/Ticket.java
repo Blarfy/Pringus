@@ -1,6 +1,7 @@
 package com.example.pringusspring.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -12,11 +13,12 @@ public class Ticket {
     private String seatClass;
     private String flightID;
     private String seat;
-    private String user;
+    @DBRef
+    private User user;
     public Ticket() {
     }
 
-    public Ticket(String seatClass, String flightID, String seat, String user) {
+    public Ticket(String seatClass, String flightID, String seat, User user) {
         this.seatClass = seatClass;
         this.flightID = flightID;
         this.seat = seat;
@@ -47,11 +49,11 @@ public class Ticket {
         this.seat = seat;
     }
 
-    public String getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
