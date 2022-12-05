@@ -1,7 +1,6 @@
 package com.example.pringusspring.controller;
 
 import com.example.pringusspring.model.*;
-import com.example.pringusspring.repository.AirportRepository;
 import com.example.pringusspring.repository.FlightRepository;
 import com.example.pringusspring.repository.PlaneRepository;
 import com.example.pringusspring.util.SeatingConverter;
@@ -11,12 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -53,10 +49,21 @@ public class FlightRESTController {
     }
 
 
-//    @GetMapping("/getTopFlights/{airportCode}")
-//    public ResponseEntity<Iterable<Flight>> getTopFlights(@PathVariable String airportCode) {
-//        return ResponseEntity.ok(flightRepository.findTop20ByOriginOrderByPriceAsc(airportCode).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No flights found")));
-//    }
+    @GetMapping("/getFlightsByDestination/{airportCode}")
+    public ResponseEntity<Iterable<Flight>> getFlightsByAirportCode(@PathVariable String airportCode, @RequestHeader Optional<Integer> page) {
+        final int size = 20;
+        int pageNumber = page.orElse(0);
+        Pageable p = Pageable.ofSize(size).withPage(pageNumber);
+        return new ResponseEntity<>(flightRepository.findAllByDestinationOrderByPriceAsc(airportCode, p), HttpStatus.OK);
+    }
+
+    @GetMapping("/getFlightsByOrigin/{airportCode}")
+    public ResponseEntity<Iterable<Flight>> getFlightsByOrigin(@PathVariable String airportCode, @RequestHeader Optional<Integer> page) {
+        final int size = 20;
+        int pageNumber = page.orElse(0);
+        Pageable p = Pageable.ofSize(size).withPage(pageNumber);
+        return new ResponseEntity<>(flightRepository.findAllByOriginOrderByPriceAsc(airportCode, p), HttpStatus.OK);
+    }
 
     @GetMapping("/getAll")
     public String getAll() {

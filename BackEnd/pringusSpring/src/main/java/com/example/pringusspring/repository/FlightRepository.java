@@ -1,13 +1,11 @@
 package com.example.pringusspring.repository;
 
 import com.example.pringusspring.model.Flight;
-import com.mongodb.lang.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface FlightRepository extends MongoRepository<Flight, String> {
@@ -20,5 +18,7 @@ public interface FlightRepository extends MongoRepository<Flight, String> {
 
     public Page<Flight> findAllByFlightInfo_Plane_Id(String planeId, Pageable pageable);
 
-    Optional<Iterable<Flight>> findAllByOriginOrderByPriceAsc(String airportCode);
+    public Page<Flight> findAllByOriginOrderByPriceAsc(String airportCode, Pageable pageable);
+
+    public Page<Flight> findAllByDestinationOrderByPriceAsc(String airportCode, Pageable pageable);
 }
