@@ -3,6 +3,7 @@
 from pymongo import MongoClient
 import random
 import datetime
+import math
 
 #connect to database
 url = "mongodb+srv://theGringus:SquingyDingus@pringus.kqhfvvx.mongodb.net/?retryWrites=true&w=majority"
@@ -20,7 +21,7 @@ for route in collRoutes.find():
 
 flightCount = 0
 
-randomloop = random.randint(1, 1000)
+randomloop = random.randint(300, 1000)
 for i in range(randomloop):
     randomRoute = routes[random.randint(0, len(routes)-1)]
     airplane = collPlanes.find_one({'code': randomRoute['plane']})
@@ -33,7 +34,7 @@ for i in range(randomloop):
             pattern = airplane['first']['pattern']
             first = []
         except:
-            first = 'none'
+            first = [[]]
 
     #You have a first class, start generation
         seatsPerRow = 0
@@ -42,7 +43,7 @@ for i in range(randomloop):
             seatsPerRow += pattern[row - 1]
 
         #getting number of rows
-        rows = count / seatsPerRow
+        rows = math.floor(count / seatsPerRow)
         #Getting stray stuff
         leftover = count % seatsPerRow
         try:
@@ -52,7 +53,7 @@ for i in range(randomloop):
         try:
             strow = airplane['first']['strow']
         except: 
-            strow = rows
+            strow = rows + 1
 
         #Makes empty seats
         patternBool = []
@@ -83,18 +84,24 @@ for i in range(randomloop):
     except:
         print("oopsie poopsies! no first class for you!")
 
+    rows = 0
+    leftover = 0
+    count = 0
+    pattern = []
+    strow = 0
+
     try:
         try:
             count = airplane['business']['count']
             pattern = airplane['business']['pattern']
             business = []
         except:
-            business = 'none'
+            business = [[]]
         
         seatsPerRow = 0
         for row in pattern:
             seatsPerRow += row
-        rows = count / seatsPerRow
+        rows = math.floor(count / seatsPerRow)
         leftover = count % seatsPerRow
         try:
             stray = airplane['business']['stray']
@@ -103,7 +110,7 @@ for i in range(randomloop):
         try:
             strow = airplane['business']['strow']
         except:
-            strow = rows
+            strow = rows + 1
 
         patternBool = []
         for entry in range(seatsPerRow):
@@ -129,18 +136,24 @@ for i in range(randomloop):
     except:
         print("oopsie poopsies! no business class for you!")
 
+    rows = 0
+    leftover = 0
+    count = 0
+    pattern = []
+    strow = 0
+
     try:
         try:
             count = airplane['economy']['count']
             pattern = airplane['economy']['pattern']
             economy = []
         except:
-            economy = 'none'
+            economy = [[]]
 
         seatsPerRow = 0
         for row in pattern:
             seatsPerRow += row
-        rows = count / seatsPerRow
+        rows = math.floor(count / seatsPerRow)
         leftover = count % seatsPerRow
         try:
             stray = airplane['economy']['stray']
@@ -191,7 +204,7 @@ for i in range(randomloop):
         'flightInfo': {
             'departureTime': randomDeparture,
             'arrivalTime': randomArrival,
-            'airplane': {
+            'plane': {
                 "$ref": "Planes",
                 "$id": airplane['_id'],
             },
