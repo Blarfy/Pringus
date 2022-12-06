@@ -11,16 +11,17 @@ public class Ticket {
     private String id;
     private String ticketID;
     private String seatClass;
-    private String flightID;
+    @DBRef
+    private Flight flight;
     private String seat;
     @DBRef
     private User user;
     public Ticket() {
     }
 
-    public Ticket(String seatClass, String flightID, String seat, User user) {
+    public Ticket(String seatClass, Flight flight, String seat, User user) {
         this.seatClass = seatClass;
-        this.flightID = flightID;
+        this.flight = flight;
         this.seat = seat;
         this.user = user;
     }
@@ -33,12 +34,12 @@ public class Ticket {
         this.seatClass = seatClass;
     }
 
-    public String getFlightID() {
-        return flightID;
+    public Flight getFlight() {
+        return flight;
     }
 
-    public void setFlightID(String flightID) {
-        this.flightID = flightID;
+    public void setFlight(Flight flight) {
+        this.flight = flight;
     }
 
     public String getSeat() {
@@ -70,7 +71,7 @@ public class Ticket {
     @Override
     public String toString() {
         return "{ \"seatClass\": \"" + seatClass
-                + "\", \"flightID\": \"" + flightID
+                + "\", \"flightID\": \"" + flight
                 + "\", \"seat\": \"" + seat
                 + "\", \"user\": \"" + user
                 + "\" }";

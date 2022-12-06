@@ -107,4 +107,29 @@ public class UserRESTController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
     }
+
+    @DeleteMapping("/deleteUser/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteUser(@PathVariable String userId) {
+        User user = userRepository.findByUserID(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        if (user != null) {
+            userRepository.delete(user);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+    }
+
+    @PostMapping("/createUser")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void createUser(@RequestBody User user) {
+        User userToSave = new User(user.getEmail(),
+                passwordEncoder.encode(user.getPassword()),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getRole(),
+                user.getUserID(),
+                user.getUsername());
+        userDetailsService.saveUser(userToSave);
+    }
+
 }
