@@ -28,7 +28,8 @@ import Root from './components/root';
 import { getFlight as flightLoader } from './pages/editFlight';
 import { getUser as userLoader } from './pages/editUser';
 import { getData as dataLoader } from './pages/dashboard';
-
+import { loadHomeData as homeLoader } from './pages/home';
+import { loadSearchResults as searchLoader } from './pages/searchResults';
 
 
 //Router - https://reactrouter.com/en/main/start/tutorial
@@ -48,9 +49,9 @@ const theme = createTheme({
             dark: '#0a00b6',
         },
         error: {
-            main: '#f95947',
-            light: '#ff8a7a',
-            dark: '#c41c00',
+            main: '#db4840',
+            light: '#ff7b73',
+            dark: '#a30000',
         },
         canvas: {
             main: '#E1E2E1',
@@ -77,6 +78,7 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+        loader: homeLoader,
       },
       {
         path: "/login",
@@ -87,8 +89,13 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: "/search",
+        path: "/search/",
         element: <SearchResults />,
+      },
+      {
+        path: "/search/:query",
+        element: <SearchResults />,
+        loader: searchLoader,
       }
     ]
   },

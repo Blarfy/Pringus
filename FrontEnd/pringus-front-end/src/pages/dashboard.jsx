@@ -67,64 +67,13 @@ function Dashboard() {
     console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
     console.log(user)
 
-    // const [list, setList] = React.useState([]);
-
-    // let userList = getUsers();
-    // userList.then((data) => {
-    //     console.log("GET USERS")
-    //     console.log(data)
-    //     setList(data);
-    // })
-
-    //let flight = [];
-    //const [flight, setFlight] = React.useState();
-
-    // //get the array from our promise
-    // let topFlights = getTopFlights();
-    // topFlights.then((data) => {
-    //     console.log("TOP FLIGHTS")
-    //     console.log(data)
-    //     // flight = data;
-    //     // console.log(flight);
-    //     setFlight(data);
-    // })
-
-    // const flightList = async () => {
-    //     let flights = await getTopFlights();
-    //     flights.then((data) => {
-    //         console.log("TOP FLIGHTS")
-    //         console.log(data)
-    //     })
-
-    //     if (flights === null) {
-    //         return <Typography>Loading</Typography>
-    //     } else if (flights.length === 0) {
-    //         return <Typography>No flights found</Typography>
-    //     } else {
-    //         return <ObjectList type="User" json={flights} addButton isAdminPage />
-    //     }
-    // }
-
-    // const userList = async () => {
-    //     let users = await getUsers();
-
-    //     if (users === null) {
-    //         return <Typography>Loading</Typography>
-    //     } else if (users.length === 0) {
-    //         return <Typography>No users found</Typography>
-    //     } else {
-    //         return <ObjectList type="User" json={users} addButton isAdminPage />
-    //     }
-    // }
-
-
     return (
         <>
             {user === null ? 
             (<Login />)
              : user.role === "ADMIN" ? (<>
             <ObjectList type="User" json={data.users} addButton isAdminPage />
-            <ObjectList type="Flight" json={data.topFlights} addButton isAdminPage style={{width: "600px"}}/>
+            <ObjectList type="Flight" json={data.topFlights} addButton isAdminPage />
                 
             </>) : (<Home />)}
             
