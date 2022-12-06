@@ -14,13 +14,13 @@ import Home from './home';
 import FlightForm from '../components/flightForm';
 
 function EditFlight() {
-    const [user, setUser] = useOutletContext();
+    const context = useOutletContext();
 
     const flight = useLoaderData();
 
     return (
         <>
-            {user.role === "ADMIN" ? <FlightForm json={flight} isEdit /> : user === null ? (<Login />) : (<Home />)}
+            {context.user.role === "ADMIN" ? <FlightForm json={flight} isEdit /> : context.user === null ? (<Login />) : (<Home />)}
              
         </>
     );
@@ -29,7 +29,26 @@ function EditFlight() {
 export default EditFlight;
 
 export async function getFlight(id) {
-    // let xhr = new XMLHttpRequest();
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Basic " + Buffer.from("bob:spingleton").toString("base64"));
+    myHeaders.append("Access-Control-Allow-Origin", "http://localhost:3000");
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    let response = await fetch(`http://localhost:8080/Flights/getByFlightID/${id.params.flightId}`, requestOptions);
+    let flight = await response.json();
+    
+    // console.log(flight);
+    return flight;
+
+}
+
+// let xhr = new XMLHttpRequest();
     // xhr.open('GET', `http://localhost:8080/Flights/getByFlightID/${id}`, true);
     // console.log(Buffer.from("bob:spingleton").toString("base64"))
     // xhr.setRequestHeader("Content-Type", "application/json");
@@ -58,21 +77,3 @@ export async function getFlight(id) {
     // let flight = await response.json();
     // console.log(response.status);
     // console.log(flight);
-
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Basic " + Buffer.from("bob:spingleton").toString("base64"));
-    myHeaders.append("Access-Control-Allow-Origin", "http://localhost:3000");
-
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
-
-    let response = await fetch(`http://localhost:8080/Flights/getByFlightID/${id.params.flightId}`, requestOptions);
-    let flight = await response.json();
-    // console.log(flight);
-    return flight;
-
-}

@@ -31,17 +31,17 @@ function UserForm({json, isAdd, isEdit}) {
         if (initialForm.password) {
             delete initialForm.password;
         }
-        initialTickets = ["PT0001", "PT0002"];
         console.log(initialForm);
     } else if (isAdd) {
         initialForm = {
                 "email": "",
                 "firstName": "",
                 "lastName": "",
+                "username": "",
                 "password": "",
                 "role": "CUSTOMER",
-                //"tickets": [],
-                "username": ""
+                "tickets": [],
+                "userID": ""
         }
     }
 
@@ -60,9 +60,9 @@ function UserForm({json, isAdd, isEdit}) {
     }
 
     const addNewUser = (form) => {
-        let url = 'http://localhost:8080/users/addUser';
+        let url = 'http://localhost:8080/users/createUser';
         let auth = "Basic " + Buffer.from("bob:spingleton").toString("base64");
-        let body = JSON.stringify(form) + ", " + JSON.stringify(tickets);
+        let body = JSON.stringify(form);
         console.log(body);
         let options = {
             method: 'POST',
@@ -70,7 +70,7 @@ function UserForm({json, isAdd, isEdit}) {
                 'Content-Type': 'application/json',
                 "Authorization": auth
             },
-            body: JSON.stringify(body)
+            body: body
         }
         fetch(url, options)
             .then(response => response.json())

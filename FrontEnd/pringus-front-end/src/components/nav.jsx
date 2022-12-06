@@ -10,6 +10,7 @@ import { Box } from '@mui/system';
 
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 //import '../css/nav.css';
 
 const Search = styled('div')(({ theme }) => ({
@@ -58,12 +59,14 @@ const Search = styled('div')(({ theme }) => ({
 
 
 
-function Nav({user, setUser}) {
+function Nav({context}) {
   let theme = useTheme();
-  let loggedIn = (user) ? true : false;
+  let loggedIn = (context.user) ? true : false;
+
 
   let navigate = useNavigate();
   const routeChange = (key) => {
+      context.setIsLoading(true);
       navigate(key);
   }
 
@@ -75,7 +78,7 @@ function Nav({user, setUser}) {
 
   const handleLogout = (event) => {
       localStorage.removeItem("user");
-      setUser(null);
+      context.setUser(null);
       loggedIn = false;
       navigate("/login");
   }
@@ -101,7 +104,7 @@ function Nav({user, setUser}) {
                 onKeyDown={handleKeyDown}
                 />
             </Search>
-            {user !== null && user.role === "ADMIN" ? (
+            {context.user !== null && context.user.role === "ADMIN" ? (
               <Button
                   key="Admin"
                   onClick={() => routeChange("/a/dashboard")}
