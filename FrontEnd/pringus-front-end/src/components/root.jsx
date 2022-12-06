@@ -23,10 +23,13 @@ function Root() {
     return (
         <Box sx={{
             minHeight: "100vh",
+            maxWidth: "100%",
+            padding: 0,
+            margin: 0,
             backgroundColor: `${theme.palette.canvas.main}`,
         }}>
             <Nav user={user} setUser={setUser} />
-            <div css={{paddingTop: "100px", display: "flex", flexDirection: "row", justifyContent: "space-around", flexWrap: "wrap"}}>
+            <div css={{paddingTop: "100px", display: "flex", flexDirection: "row", justifyContent: "space-around", flexWrap: "wrap", alignItems: "flex-start", width: "100%"}}>
             <Outlet context={[user, setUser]} />
             </div>
         </Box>

@@ -47,6 +47,11 @@ const theme = createTheme({
             light: '#9d46ff',
             dark: '#0a00b6',
         },
+        error: {
+            main: '#f95947',
+            light: '#ff8a7a',
+            dark: '#c41c00',
+        },
         canvas: {
             main: '#E1E2E1',
         },

@@ -124,7 +124,7 @@ function Dashboard() {
             (<Login />)
              : user.role === "ADMIN" ? (<>
             <ObjectList type="User" json={data.users} addButton isAdminPage />
-            <ObjectList type="Flight" json={data.topFlights} addButton isAdminPage />
+            <ObjectList type="Flight" json={data.topFlights} addButton isAdminPage style={{width: "600px"}}/>
                 
             </>) : (<Home />)}
             

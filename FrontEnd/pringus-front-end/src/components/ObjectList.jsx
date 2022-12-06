@@ -26,6 +26,10 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult})
     console.log(selectedIndex);
     const itemsRef = React.useRef(new Array(json.length).fill(null));
 
+    const [isLongList, setIsLongList] = React.useState(false);
+    const initialShown = 7;
+    const [listShown, setListShown] = React.useState(initialShown);
+
     // useEffect(() => {
     //     itemsRef.current[selectedIndex] = itemsRef.current[selectedIndex].slice(0, json.length);
     // }, [json.length, selectedIndex]);
@@ -96,9 +100,10 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult})
 
 
     let staticStyle = {
-        width: "550px",
-        height: "600px",
+        minWidth: "550px",
+        minHeight: "600px",
         padding: 0,
+        paddingBottom: "20px",
         marginBottom: "20px",
     }
     let objectListStyle = {...staticStyle, ...style};
@@ -123,7 +128,9 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult})
                         <TableCell>ID</TableCell>
                         <TableCell>Origin</TableCell>
                         <TableCell>Destination</TableCell>
+                        <TableCell>Status</TableCell>
                         <TableCell>Airline</TableCell>
+                        <TableCell>Aircraft</TableCell>
                         <TableCell></TableCell>
                     </TableRow> : null }
                     {type === "Suggested" ? 
@@ -141,7 +148,7 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult})
                         console.log(item);
                         return (
                         <TableRow>
-                            <TableCell>{item.id}</TableCell>
+                            <TableCell>{item.userID}</TableCell>
                             <TableCell>{item.username}</TableCell>
                             <TableCell>{item.role}</TableCell>
                             <TableCell>{item.email}</TableCell>
@@ -199,72 +206,79 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult})
                             </TableCell>
                         </TableRow>
                     )}) : null}
-                    {type === "Flight" ? json.map((item, i) => (
-                        <TableRow>
-                            <TableCell>{item.FlightID}</TableCell>
-                            <TableCell>{item.Origin}</TableCell>
-                            <TableCell>{item.Destination}</TableCell>
-                            <TableCell>{item.Airline}</TableCell>
-                            {isAdminPage ? 
-                            <TableCell>
-                                <Button 
-                                    variant='contained' 
-                                    size='small'
-                                    ref={(element) => {
-                                        // console.log("element " + element);
-                                        // console.log("itemsRef " + itemsRef.current[i]);
-                                        if (element) {
-                                            itemsRef.current[i] = element;
-                                        }
-                                        // console.log("itemsRef AFTER " + itemsRef.current[i]);
-                                        // console.log(item)
-                                        // console.log(i);
-                                    }}
-                                    aria-controls={open[i] ? 'menu-list-grow' : undefined}
-                                    aria-haspopup="true"
-                                    onClick={(event) => handleToggle(event, i)}
-                                    id={i}
-                                    >Options</Button>
-                                    <Popper 
-                                        open={open[i]} 
-                                        anchorEl={itemsRef.current[selectedIndex]} 
-                                        role={undefined} 
-                                        transition 
-                                    >
-                                        {({ TransitionProps, placement }) => (
-                                            <Grow 
-                                                {...TransitionProps} 
-                                                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                    {type === "Flight" ? json.map((item, i) => {
+                        if (i < listShown) {
+                            if (!isLongList) setIsLongList(true);
+                            return (
+                                <TableRow>
+                                    <TableCell>{item.flightID}</TableCell>
+                                    <TableCell>{item.origin}</TableCell>
+                                    <TableCell>{item.destination}</TableCell>
+                                    <TableCell>{item.status}</TableCell>
+                                    <TableCell>{item.airline}</TableCell>
+                                    <TableCell>{ item.flightInfo ? item.flightInfo.plane.code : "loading..."}</TableCell>
+                                    {isAdminPage ? 
+                                    <TableCell>
+                                        <Button 
+                                            variant='contained' 
+                                            size='small'
+                                            ref={(element) => {
+                                                // console.log("element " + element);
+                                                // console.log("itemsRef " + itemsRef.current[i]);
+                                                if (element) {
+                                                    itemsRef.current[i] = element;
+                                                }
+                                                // console.log("itemsRef AFTER " + itemsRef.current[i]);
+                                                // console.log(item)
+                                                // console.log(i);
+                                            }}
+                                            aria-controls={open[i] ? 'menu-list-grow' : undefined}
+                                            aria-haspopup="true"
+                                            onClick={(event) => handleToggle(event, i)}
+                                            id={i}
+                                            >Options</Button>
+                                            <Popper 
+                                                open={open[i]} 
+                                                anchorEl={itemsRef.current[selectedIndex]} 
+                                                role={undefined} 
+                                                transition 
                                             >
-                                                <Paper>
-                                                    <ClickAwayListener onClickAway={(event) => handleClose(event, i)}>
-                                                        <MenuList 
-                                                            autoFocusItem={open[i]} 
-                                                            id="menu-list-grow" 
-                                                            onKeyDown={handleListKeyDown}
-                                                        >
-                                                            <MenuItem onClick={(event) => {
-                                                                handleClose(event, i)
-                                                                navigate("/a/editFlight/" + item.FlightID);
-                                                            }}>Edit</MenuItem>
-                                                            <MenuItem onClick={(event) => {
-                                                                handleClose(event, i)
-                                                                // handleDelete(item.id);
-                                                                }}>Delete</MenuItem>
-                                                        </MenuList>
-                                                    </ClickAwayListener>
-                                                </Paper>
-                                            </Grow>
-                                        )}
-                                    </Popper>
-                            </TableCell>
-                            : 
-                            <TableCell>
-                                <Button variant='contained' size='small' onClick={() => {navigate("/flightDetails/" + item.FlightID)}}>Details</Button>
-                            </TableCell>
-                            }
-                        </TableRow>
-                    )) : null}
+                                                {({ TransitionProps, placement }) => (
+                                                    <Grow 
+                                                        {...TransitionProps} 
+                                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                                    >
+                                                        <Paper>
+                                                            <ClickAwayListener onClickAway={(event) => handleClose(event, i)}>
+                                                                <MenuList 
+                                                                    autoFocusItem={open[i]} 
+                                                                    id="menu-list-grow" 
+                                                                    onKeyDown={handleListKeyDown}
+                                                                >
+                                                                    <MenuItem onClick={(event) => {
+                                                                        handleClose(event, i)
+                                                                        navigate("/a/editFlight/" + item.FlightID);
+                                                                    }}>Edit</MenuItem>
+                                                                    <MenuItem onClick={(event) => {
+                                                                        handleClose(event, i)
+                                                                        // handleDelete(item.id);
+                                                                        }}>Delete</MenuItem>
+                                                                </MenuList>
+                                                            </ClickAwayListener>
+                                                        </Paper>
+                                                    </Grow>
+                                                )}
+                                            </Popper>
+                                    </TableCell>
+                                    : 
+                                    <TableCell>
+                                        <Button variant='contained' size='small' onClick={() => {navigate("/flightDetails/" + item.FlightID)}}>Details</Button>
+                                    </TableCell>
+                                    }
+                                </TableRow>
+                            )
+                        }
+                    }) : null}
                     {type === "Suggested" ? json.map((item, i) => {
                         return (
                         <TableRow>
@@ -282,12 +296,46 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult})
                     )) : null}
                 </TableBody>
             </Table>
+            {
+                listShown > initialShown ?
+                <>
+                    <Button
+                        variant='contained'
+                        color='error'
+                        onClick={() => setListShown(listShown - 7)}
+                        sx={{marginLeft: "25px", marginTop: "20px", width: "200px", display: "inline-block"}}
+                    >
+                        View Less {type}s
+                    </Button>
+                    <Button
+                        variant='contained'
+                        color='primary'
+                        onClick={() => setListShown(listShown + 7)}
+                        sx={{marginLeft: "20px", marginTop: "20px", width: "200px", display: "inline-block"}}
+                    >
+                        View More {type}s
+                    </Button>
+                </>
+                : null
+            }
+            {
+                isLongList && listShown <= initialShown ?
+                <Button
+                    variant='contained'
+                    color='primary'
+                    onClick={() => setListShown(listShown + 7)}
+                    sx={{marginLeft: "245px", marginTop: "20px", width: "200px", display: "inline-block"}}
+                >
+                    View More {type}s
+                </Button>
+                : null
+            }
             { addButton ? 
                 <Button 
                     variant='contained' 
                     color='secondary'
                     onClick={() => navigate("/a/add" + type)} //handleAdd
-                    sx={{marginLeft: "400px", marginTop: "20px", width: "120px"}}
+                    sx={{marginLeft: "20px", marginTop: "20px", width: "120px", display: "inline-block"}}
                 >
                     Add {type}
                 </Button> 
