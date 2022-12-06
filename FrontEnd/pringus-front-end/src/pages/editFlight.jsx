@@ -14,13 +14,13 @@ import Home from './home';
 import FlightForm from '../components/flightForm';
 
 function EditFlight() {
-    const [user, setUser] = useOutletContext();
+    const context = useOutletContext();
 
     const flight = useLoaderData();
 
     return (
         <>
-            {user.role === "ADMIN" ? <FlightForm json={flight} isEdit /> : user === null ? (<Login />) : (<Home />)}
+            {context.user.role === "ADMIN" ? <FlightForm json={flight} isEdit /> : context.user === null ? (<Login />) : (<Home />)}
              
         </>
     );

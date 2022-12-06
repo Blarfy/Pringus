@@ -11,13 +11,13 @@ import Login from './login';
 import Home from './home';
 
 function AddUser() {
-    const [user, setUser] = useOutletContext();
+    const context = useOutletContext();
 
     
 
     return (
         <>
-            {user.role === "ADMIN" ? <UserForm isAdd /> : user === null ? (<Login />) : (<Home />)}
+            {context.user.role === "ADMIN" ? <UserForm isAdd /> : context.user === null ? (<Login />) : (<Home />)}
             
         </>
     );

@@ -14,12 +14,12 @@ import { Buffer } from 'buffer';
 import Login from './login';
 
 function Home() {
-    const [user, setUser] = useOutletContext();
+    const context = useOutletContext();
     console.log("BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
     
 
     React.useEffect(() => {
-        setUser(JSON.parse(localStorage.getItem("user")));
+        context.setUser(JSON.parse(localStorage.getItem("user")));
     }, []);
 
     const homeData = useLoaderData();
@@ -29,7 +29,7 @@ function Home() {
 
     return (
         <>
-            {user === null ? (<Login />) : 
+            {context.user === null ? (<Login />) : 
             (<>
                 <ObjectList type="Flight" json={homeData.flights} />
                 <ObjectList type="Suggested" json={homeData.suggested} maxShown={3}/>
@@ -41,6 +41,11 @@ function Home() {
 export default Home;
 
 export async function loadHomeData() {
+    if (localStorage.getItem("user") === null) {
+        return null;
+    }
+
+
     let homeData = {
         "flights": [],
         "suggested": []

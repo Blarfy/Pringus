@@ -13,7 +13,7 @@ import Login from './login';
 import ObjectList from '../components/ObjectList';
 
 function SearchResults () {
-    const [user, setUser] = useOutletContext();
+    const context = useOutletContext();
     const resultData = useLoaderData();
     console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOGGGGGGGGGGGGGGGHHHHHHHHHHHHHHHHHHHHHH");
     console.log(resultData);
@@ -70,14 +70,14 @@ function SearchResults () {
     // ];
     return (
         <>
-            {user === null ? (<Login />) : (
+            {context.user === null ? (<Login />) : (
                 <>  
                     {resultData !== undefined && resultData.byOrigin !== undefined && resultData.byOrigin.content.length > 0 ? 
                         (<ObjectList 
                             type="Flight" 
                             json={resultData.byOrigin.content} 
                             isSearchResult 
-                            isAdminPage={ user.role === "ADMIN" ? true : false } 
+                            isAdminPage={ context.user.role === "ADMIN" ? true : false } 
                             header="Flights by Origin"
                         />) : console.log(resultData)}
                     {resultData !== undefined && resultData.byDestination !== undefined && resultData.byDestination.content.length > 0 ? 
@@ -85,7 +85,7 @@ function SearchResults () {
                             type="Flight" 
                             json={resultData.byDestination.content} 
                             isSearchResult 
-                            isAdminPage={ user.role === "ADMIN" ? true : false } 
+                            isAdminPage={ context.user.role === "ADMIN" ? true : false } 
                             header="Flights by Destination"
                         />) : console.log(resultData)}
                     {resultData !== undefined && resultData.byPlane !== undefined && resultData.byPlane.content !== undefined ? 
@@ -93,7 +93,7 @@ function SearchResults () {
                             type="Flight" 
                             json={resultData.byPlane.content} 
                             isSearchResult 
-                            isAdminPage={ user.role === "ADMIN" ? true : false } 
+                            isAdminPage={ context.user.role === "ADMIN" ? true : false } 
                             header="Flights by Plane Code"
                         />) : console.log(resultData)}
                 </>

@@ -13,11 +13,11 @@ import FlightForm from '../components/flightForm';
 
 function AddFlight() {
     let navigate = useNavigate();
-    const [user, setUser] = useOutletContext();
+    const context = useOutletContext();
 
     return (
         <>
-            {user.role === "ADMIN" ? <FlightForm isAdd /> : user === null ? (<Login />) : (<Home />)}
+            {context.user.role === "ADMIN" ? <FlightForm isAdd /> : context.user === null ? (<Login />) : (<Home />)}
         </>
     );
 }

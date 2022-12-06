@@ -62,6 +62,36 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult, 
         });
     };
 
+    const handleDeleteUser = async (id) => { //-------------- untested
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Basic " + Buffer.from("bob:spingleton").toString("base64"));
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        console.log(id);
+        let response = await fetch(`http://localhost:8080/users/deleteUser/${id}`, requestOptions);
+    }
+
+    const handleDeleteFlight = async (id) => { //-------------- untested
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Basic " + Buffer.from("bob:spingleton").toString("base64"));
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        console.log(id);
+        let response = await fetch(`http://localhost:8080/users/deleteFlight/${id}`, requestOptions);
+    }
+
     function handleListKeyDown(event) {
         if (event.key === 'Tab') {
             event.preventDefault();
@@ -191,7 +221,7 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult, 
                                                                     }}>Edit</MenuItem>
                                                                     <MenuItem onClick={(event) => {
                                                                         handleClose(event, i)
-                                                                        // handleDelete(item.id);
+                                                                        handleDeleteUser(item.id);
                                                                         }}>Delete</MenuItem>
                                                                 </MenuList>
                                                             </ClickAwayListener>
@@ -257,7 +287,7 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult, 
                                                                     }}>Edit</MenuItem>
                                                                     <MenuItem onClick={(event) => {
                                                                         handleClose(event, i)
-                                                                        // handleDelete(item.id);
+                                                                        handleDeleteFlight(item.id);
                                                                         }}>Delete</MenuItem>
                                                                 </MenuList>
                                                             </ClickAwayListener>

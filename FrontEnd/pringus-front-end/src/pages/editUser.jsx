@@ -14,11 +14,11 @@ import UserForm from '../components/userForm';
 
 function EditUser() {
     const targetUser = useLoaderData();
-    const [user, setUser] = useOutletContext();
+    const context = useOutletContext();
 
     return (
         <>
-            {user.role === "ADMIN" ? <UserForm isEdit json={targetUser} /> : user === null ? (<Login />) : (<Home />)}
+            {context.user.role === "ADMIN" ? <UserForm isEdit json={targetUser} /> : context.user === null ? (<Login />) : (<Home />)}
         </>
     );
 }

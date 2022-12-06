@@ -15,7 +15,7 @@ import Login from './login';
 function FlightDetails() {
     let navigate = useNavigate();
     const flight = useLoaderData();
-    const [user, setUser] = useOutletContext();
+    const context = useOutletContext();
 
     let cardStyle = {
         width: "600px",
@@ -78,7 +78,7 @@ function FlightDetails() {
 
     return (
         <>
-        {user !== null ? (
+        {context.user !== null ? (
         <Card style={cardStyle}>
             {console.log("AAHAHAHHAHAHAHAHAHHAHA")}
             {console.log(flight)}

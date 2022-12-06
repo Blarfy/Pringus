@@ -61,17 +61,17 @@ export async function getData() {
 }
 
 
-function Dashboard() {
-    const [user, setUser] = useOutletContext();
+function Dashboard(query) {
+    const context = useOutletContext();
     let data = useLoaderData();
     console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
-    console.log(user)
+    console.log(context.user)
 
     return (
         <>
-            {user === null ? 
+            {context.user === null ? 
             (<Login />)
-             : user.role === "ADMIN" ? (<>
+             : context.user.role === "ADMIN" ? (<>
             <ObjectList type="User" json={data.users} addButton isAdminPage />
             <ObjectList type="Flight" json={data.topFlights} addButton isAdminPage />
                 
