@@ -108,13 +108,14 @@ function FlightDetails() {
                     <Typography>{flight.flightInfo.plane.code}</Typography>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                    
                     <Typography>Departure: </Typography>
                     <Typography>{getDate(flight.flightInfo.departureTime)} {getTime(flight.flightInfo.departureTime)}</Typography>
                     <Typography>Arrival:</Typography>
                     <Typography>{getDate(flight.flightInfo.arrivalTime)} {getTime(flight.flightInfo.arrivalTime)}</Typography>
                 </Grid>
                 <Grid item xs={12} md={4}>
+                    <Typography>Status:</Typography>
+                    <Typography>{flight.status}</Typography>
                 </Grid>
                 <Grid item xs={12} md={3}>
                 </Grid>
