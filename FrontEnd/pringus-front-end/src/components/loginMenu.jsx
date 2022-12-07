@@ -22,13 +22,48 @@ function LoginMenu({style, isRegister}) {
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [user, setUser] = React.useState(localStorage.getItem("user"));
+    const [confPass, setConfPass] = React.useState("");
+
+    let initialForm = {
+        "email": "",
+        "firstName": "",
+        "lastName": "",
+        "username": "",
+        "password": "",
+        "role": "CUSTOMER",
+        "tickets": [],
+        "userID": ""
+    };
+    const [userForm, setUserForm] = React.useState(initialForm);
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
+        if (isRegister) {
+            setUserForm({...userForm, username: event.target.value});
+        }
     }
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
+        if (isRegister) {
+            setUserForm({...userForm, password: event.target.value});
+        }
+    }
+
+    const handleEmailChange = (event) => {
+        setUserForm({...userForm, email: event.target.value});
+    }
+
+    const handleFirstNameChange = (event) => {
+        setUserForm({...userForm, firstName: event.target.value});
+    }
+
+    const handleLastNameChange = (event) => {
+        setUserForm({...userForm, lastName: event.target.value});
+    }
+
+    const handleConfPassChange = (event) => {
+        setConfPass(event.target.value);
     }
 
     const handleLogin = async (event) => {
@@ -59,20 +94,43 @@ function LoginMenu({style, isRegister}) {
                 localStorage.setItem("user", JSON.stringify(data));
                 navigate("/home");
             }).catch((error) => {
-                console.log(error);
+                alert("Login failed");
             });
 
             
         }
     }
 
+    const addNewUser = (form) => {
+        let url = 'http://localhost:8080/users/createUser';
+        let auth = "Basic " + Buffer.from("bob:spingleton").toString("base64");
+        let body = JSON.stringify(form);
+        console.log(body);
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": auth
+            },
+            body: body
+        }
+        fetch(url, options)
+            .then(navigate('/a/dashboard'))
+            .catch(error => console.log(error));
+    }
+
     const handleRegister = () => {
         if (isRegister) {
-            //do register stuff
+            if (userForm.password === confPass) {
+                addNewUser(userForm);
+            } else {
+                alert("Passwords do not match");
+            }
         } else {
             navigate('/register');
         }
     }
+
 
     //https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/
 
@@ -86,7 +144,7 @@ function LoginMenu({style, isRegister}) {
                         <Typography sx={{mt: "8px"}} >Email</Typography>
                     </Grid>
                     <Grid item xs={12} md={8.5}>
-                        <TextField fullWidth size="small" placeholder="Email"  />
+                        <TextField fullWidth size="small" placeholder="Email" value={userForm.email} onChange={handleEmailChange} />
                     </Grid>
                 </>) : null}
                 <Grid item xs={12} md={3.5}>
@@ -101,13 +159,13 @@ function LoginMenu({style, isRegister}) {
                             <Typography sx={{mt: "8px"}} >First Name</Typography>
                         </Grid>
                         <Grid item xs={12} md={8}>
-                            <TextField fullWidth size="small" placeholder="First Name"  />
+                            <TextField fullWidth size="small" placeholder="First Name" value={userForm.firstName} onChange={handleFirstNameChange} />
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <Typography sx={{mt: "8px"}} >Last Name</Typography>
                         </Grid>
                         <Grid item xs={12} md={8}>
-                            <TextField fullWidth size="small" placeholder="Last Name"  />
+                            <TextField fullWidth size="small" placeholder="Last Name" value={userForm.lastName} onChange={handleLastNameChange} />
                         </Grid>
                     </>
                 ) : null}
@@ -123,7 +181,7 @@ function LoginMenu({style, isRegister}) {
                         <Typography sx={{mt: "8px"}} >Confirm Password</Typography>
                     </Grid>
                     <Grid item xs={12} md={8.5}>
-                        <TextField fullWidth size='small' placeholder="Confirm Password" type="password" />
+                        <TextField fullWidth size='small' placeholder="Confirm Password" type="password" value={confPass} onChange={handleConfPassChange} />
                     </Grid>
                 </>) : null}
                 {isRegister ? 

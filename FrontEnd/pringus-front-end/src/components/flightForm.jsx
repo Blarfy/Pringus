@@ -136,8 +136,6 @@ function FlightForm({json, isAdd, isEdit}) {
     return (
         <Card style={{width: "500px"}}>
             <Typography variant='h5'>{isAdd ? "Create" : "Edit"} Flight</Typography>
-            {/* Fill form in with actual data ----------------------------------------------------------------------- */}
-            {/* Rig up to 2 way bind -> Then rig up to backend */}
             <Grid container spacing={2} sx={{mt:"5px"}}>
                 <Grid item xs={6} md={6}>
                     <Typography>Flight Code</Typography>
