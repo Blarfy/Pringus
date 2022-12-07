@@ -127,7 +127,7 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult, 
         marginBottom: "20px",
     }
     if (type === "Flight" || type === "Suggested") {
-        staticStyle.minWidth = "600px";
+        staticStyle.minWidth = "650px";
     }
     let objectListStyle = {...staticStyle, ...style};
 
@@ -217,7 +217,7 @@ function ObjectList({style, json, type, addButton, isAdminPage, isSearchResult, 
                                                                 >
                                                                     <MenuItem onClick={(event) => {
                                                                         handleClose(event, i)
-                                                                        navigate("/a/editUser/" + item.id);
+                                                                        navigate("/a/editUser/" + item.username);
                                                                     }}>Edit</MenuItem>
                                                                     <MenuItem onClick={(event) => {
                                                                         handleClose(event, i)

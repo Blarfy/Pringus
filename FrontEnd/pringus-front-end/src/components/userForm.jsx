@@ -73,8 +73,7 @@ function UserForm({json, isAdd, isEdit}) {
             body: body
         }
         fetch(url, options)
-            .then(response => response.json())
-            .then(data => console.log(data))
+            .then(navigate('/a/dashboard'))
             .catch(error => console.log(error));
     }
 
@@ -96,7 +95,9 @@ function UserForm({json, isAdd, isEdit}) {
             },
             body: JSON.stringify(body)
         }
-        fetch(url, options).catch(error => console.log(error));
+        fetch(url, options)
+            .then(navigate('/a/dashboard'))
+            .catch(error => console.log(error));
     }
 
     const handleUsernameChange = (event) => {

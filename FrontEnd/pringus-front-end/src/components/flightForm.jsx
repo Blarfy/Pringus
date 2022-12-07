@@ -125,6 +125,7 @@ function FlightForm({json, isAdd, isEdit}) {
         fetch(url, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
+            .then(navigate("/a/dashboard"))
             .catch(error => console.log('error', error));
     }
 

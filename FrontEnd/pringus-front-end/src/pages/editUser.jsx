@@ -36,9 +36,15 @@ export async function getUser(id) {
         redirect: 'follow'
     };
 
+    console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOPHHHHHHHHHHHHHHHHHHHHH")
     console.log(id);
-    let response = await fetch(`http://localhost:8080/users/getByUserID/${id.params.userId}`, requestOptions);
-    let user = await response.json();
+    let response = await fetch(`http://localhost:8080/users/getByUsername/${id.params.userId}`, requestOptions);
+    let textResponse = await response.text();
+    //substring javascript
+    textResponse = textResponse.substring(9, textResponse.length - 1);
+    console.log(textResponse);
+    
+    let user = JSON.parse(textResponse);
     return user;
 
     // let sampleUser = {

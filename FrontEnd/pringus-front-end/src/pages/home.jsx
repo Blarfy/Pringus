@@ -12,6 +12,7 @@ import { useLoaderData } from 'react-router-dom';
 import { Buffer } from 'buffer';
 
 import Login from './login';
+import { Typography } from '@mui/material';
 
 function Home() {
     const context = useOutletContext();
@@ -31,7 +32,8 @@ function Home() {
         <>
             {context.user === null ? (<Login />) : 
             (<>
-                <ObjectList type="Flight" json={homeData.flights} />
+                {context.user.tickets ? <ObjectList type="Flight" json={homeData.flights} /> : <Card style={{marginTop: "200px"}}><Typography>It appears you have no flights, we suggest changing that!</Typography></Card>}
+                
                 <ObjectList type="Suggested" json={homeData.suggested} maxShown={3}/>
             </>)}
         </>
@@ -56,13 +58,15 @@ export async function loadHomeData() {
     console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOGHHHHHHHHHHHHHHHH")
     console.log(tickets)
 
-    for (let i = 0; i < tickets.length; i++) {
-        let ticket = await getTicket(tickets[i]); 
-        console.log(ticket)
-        let flight = await getFlight(ticket.flight.flightID); //---------------------- ticket api not returning flightID
-        // let flight = await getFlight("PR" + tickets[i].substring(2));
-        console.log(flight)
-        homeData.flights.push(flight);
+    if (tickets !== undefined && tickets !== null && tickets[0] !== "") {
+        for (let i = 0; i < tickets.length; i++) {
+            let ticket = await getTicket(tickets[i]); 
+            console.log(ticket)
+            let flight = await getFlight(ticket.flight.flightID); //---------------------- ticket api not returning flightID
+            // let flight = await getFlight("PR" + tickets[i].substring(2));
+            console.log(flight)
+            homeData.flights.push(flight);
+        }
     }
 
     homeData.suggested.push(await getFlight("PR0420"));

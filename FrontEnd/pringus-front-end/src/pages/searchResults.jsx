@@ -17,69 +17,23 @@ function SearchResults () {
     const resultData = useLoaderData();
     console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOGGGGGGGGGGGGGGGHHHHHHHHHHHHHHHHHHHHHH");
     console.log(resultData);
-
-    // let flights = [
-    //     {
-    //         "_id":{"$oid":"6386b98ea8a99f64acbd25cc"},
-    //         "FlightID":"PR0",
-    //         "Origin":"PEK",
-    //         "Destination":"LXA",
-    //         "Price":"339.56",
-    //         "Airline":"Pringus Air",
-    //         "Flight Info": {
-    //             "Departure Time":"n/a",
-    //             "Arrival Time":"n/a",
-    //             "Airplane":"319",
-    //             "Seating": {
-    //                 "First Class": { 
-    //                     "$numberInt":"12"
-    //                 },
-    //                 "Business Class": {
-    //                     "$numberInt":"36"
-    //                 },
-    //                 "Economy Class": {
-    //                     "$numberInt":"78"
-    //                 }
-    //             }
-    //         }
-    //     },
-    //     {
-    //         "_id":{"$oid":"6386b98ea8a99f64acbd25cc"},
-    //         "FlightID":"PR0",
-    //         "Origin":"PEK",
-    //         "Destination":"LXA",
-    //         "Price":"339.56",
-    //         "Airline":"Pringus Air",
-    //         "Flight Info": {
-    //             "Departure Time":"n/a",
-    //             "Arrival Time":"n/a",
-    //             "Airplane":"319",
-    //             "Seating": {
-    //                 "First Class": { 
-    //                     "$numberInt":"12"
-    //                 },
-    //                 "Business Class": {
-    //                     "$numberInt":"36"
-    //                 },
-    //                 "Economy Class": {
-    //                     "$numberInt":"78"
-    //                 }
-    //             }
-    //         }
-    //     }
-    // ];
+    let rendered = 3;
     return (
         <>
             {context.user === null ? (<Login />) : (
                 <>  
                     {resultData !== undefined && resultData.byOrigin !== undefined && resultData.byOrigin.content.length > 0 ? 
                         (<ObjectList 
+                            
                             type="Flight" 
                             json={resultData.byOrigin.content} 
                             isSearchResult 
                             isAdminPage={ context.user.role === "ADMIN" ? true : false } 
                             header="Flights by Origin"
-                        />) : console.log(resultData)}
+                        />) : (
+                            rendered -= 1,
+                            console.log(resultData)
+                            )}
                     {resultData !== undefined && resultData.byDestination !== undefined && resultData.byDestination.content.length > 0 ? 
                         (<ObjectList 
                             type="Flight" 
@@ -87,7 +41,10 @@ function SearchResults () {
                             isSearchResult 
                             isAdminPage={ context.user.role === "ADMIN" ? true : false } 
                             header="Flights by Destination"
-                        />) : console.log(resultData)}
+                        />) : (
+                            rendered -= 1,
+                            console.log(resultData)
+                            )}
                     {resultData !== undefined && resultData.byPlane !== undefined && resultData.byPlane.content !== undefined ? 
                         (<ObjectList 
                             type="Flight" 
@@ -95,7 +52,11 @@ function SearchResults () {
                             isSearchResult 
                             isAdminPage={ context.user.role === "ADMIN" ? true : false } 
                             header="Flights by Plane Code"
-                        />) : console.log(resultData)}
+                        />) : (
+                            rendered -= 1,
+                            console.log(resultData)
+                            )}
+                    {rendered === 0 ? <h1>No Results Found</h1> : null}
                 </>
             )}
         </>

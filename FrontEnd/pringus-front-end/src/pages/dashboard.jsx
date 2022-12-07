@@ -72,7 +72,7 @@ function Dashboard(query) {
             {context.user === null ? 
             (<Login />)
              : context.user.role === "ADMIN" ? (<>
-            <ObjectList type="User" json={data.users} addButton isAdminPage />
+            <ObjectList type="User" json={data.users} addButton isAdminPage style={{width: "650px"}} />
             <ObjectList type="Flight" json={data.topFlights} addButton isAdminPage />
                 
             </>) : (<Home />)}
