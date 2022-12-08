@@ -120,10 +120,11 @@ function FlightDetails() {
                 <Grid item xs={12} md={3}>
                 </Grid>
                 <Grid item xs={12} md={3}>
-                    <Button variant='contained' color='secondary' onClick={(event) => navigate(-1)} fullWidth>Go Back</Button>
+                    
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Button variant='contained' onClick={(event) => navigate("/somewhere")} disabled fullWidth>Choose seat and book flight</Button> {/* UPDATE LINK */}
+                    <Button variant='contained' color='secondary' onClick={(event) => navigate(-1)} fullWidth>Go Back</Button>
+                    {/* <Button variant='contained' onClick={(event) => navigate("/somewhere")} disabled fullWidth>Choose seat and book flight</Button> UPDATE LINK */}
                 </Grid>
             </Grid>
         </Card>) : (<Login />)}
