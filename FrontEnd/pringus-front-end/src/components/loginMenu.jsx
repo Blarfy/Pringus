@@ -85,14 +85,13 @@ function LoginMenu({style, isRegister}) {
             }).then((response) => {
                 if (response.status === 200) {
                     console.log("Login successful");
-                    return response.json();
+                    let data = response.json();
+                    setUser(data)
+                    localStorage.setItem("user", JSON.stringify(data));
+                    navigate("/home");
                 } else {
-                    return null;
+                    alert("Login failed");
                 }
-            }).then((data) => {
-                setUser(data)
-                localStorage.setItem("user", JSON.stringify(data));
-                navigate("/home");
             }).catch((error) => {
                 alert("Login failed");
             });
