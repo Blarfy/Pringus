@@ -85,12 +85,20 @@ function LoginMenu({style, isRegister}) {
             }).then((response) => {
                 if (response.status === 200) {
                     console.log("Login successful");
-                    let data = response.json();
-                    setUser(data)
-                    localStorage.setItem("user", JSON.stringify(data));
-                    navigate("/home");
+                    return response.json();
+                    
+                    // setUser(data)
+                    // localStorage.setItem("user", JSON.stringify(data));
+                    // navigate("/home");
                 } else {
                     alert("Login failed");
+                    return null;
+                }
+            }).then((data) =>{
+                if (data != null) {
+                    setUser(data);
+                    localStorage.setItem("user", JSON.stringify(data));
+                    navigate("/home");
                 }
             }).catch((error) => {
                 alert("Login failed");
