@@ -135,6 +135,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root')
 );
 root.render(
+  // -- This comment is from much after this was developed, but I think these tags are commented out because some rendering step was happening twice, and this was a way to prevent that. I probably should have fixed the logic of my code instead of commenting that out lol
   //<React.StrictMode>
     <ThemeProvider theme={theme}>
       <RouterProvider router={router} />
